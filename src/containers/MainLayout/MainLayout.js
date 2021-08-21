@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Route, Link, Switch, Redirect} from 'react-router-dom';
 import Events from '../Events/Events';
 import EventDetails from '../EventDetails/EventDetails';
+import EventExam from '../EventExam/EventExam';
 import AddEvent from '../AddEvent/AddEvent';
 import Auth from '../Auth/Auth';
 import { connect } from 'react-redux';
@@ -13,7 +14,7 @@ class Main extends Component {
             <Switch>
                 <Route path="/events" exact component={Events}/>
                 <Route path="/authentication" component={Auth}/>
-                <Redirect to="/events"/>
+                {/* <Redirect to="/events"/> */}
             </Switch>
         )
         if(this.props.isAuthenticated){
@@ -21,9 +22,10 @@ class Main extends Component {
                 <Switch>
                     <Route path="/events" exact component={Events}/>
                     <Route path="/event/:id" component={EventDetails}/>
+                    <Route path="/eventExam/:id" component={EventExam}/>
                     <Route path="/addEvent" component={AddEvent}/>
                     <Route path="/logout" component={Logout}/>
-                    <Redirect to="/events"/>
+                    {/* <Redirect to="/events"/> */}
                 </Switch>
             )
         }
@@ -33,7 +35,7 @@ class Main extends Component {
                 {this.props.isAuthenticated ? <Link to="/addEvent">Add Event</Link> : null}
                 { this.props.isAuthenticated 
                     ?<Link to="/logout">Logout</Link>
-                    : <Link to="/authentication">Login</Link> }
+                    : <Link to="/authentication">Login</Link> } 
                 
                 <i className="fa fa-twitter"></i>
                     {routes}

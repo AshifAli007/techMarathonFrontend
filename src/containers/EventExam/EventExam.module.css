@@ -1,0 +1,11 @@
+.questionBox {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color:grey;
+    margin: 20px;
+    cursor: pointer;
+    text-align: center;
+    /* padding:10px 0px 10px 0px; */
+    line-height:100px;
+}

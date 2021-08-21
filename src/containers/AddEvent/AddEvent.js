@@ -19,7 +19,7 @@ class AddEvent extends React.Component {
         console.log(newEventDetails);
     }
     submit = (e) =>{
-        let url = 'http://localhost:8000/v1/eventService/addEvent';
+        let url = '/eventService/addEvent';
         e.preventDefault();
         axios.post(url,{
             eventDetails:[{

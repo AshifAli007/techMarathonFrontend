@@ -3,7 +3,8 @@ import styles from './EventDetails.module.css';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import  { Redirect } from 'react-router-dom'
+import  { Redirect } from 'react-router-dom';
+
 class EventDetails extends Component {
     state = {
         event: null,
@@ -11,7 +12,7 @@ class EventDetails extends Component {
         isEventDeleted: false,
     }
     componentDidMount(){
-        axios.get('http://localhost:8000/v1/eventService/getEvent/'+this.props.match.params.id,{
+        axios.get('/eventService/getEvent/'+this.props.match.params.id,{
             headers:{
                 'Authorization' : `Bearer ${this.props.token}`,
             }
@@ -24,12 +25,13 @@ class EventDetails extends Component {
 
     deleteEventHandler(props){
         console.log('event Deleted');
-        axios.delete('http://localhost:8000/v1/eventService/deleteEvent/'+this.state.event._id)
+        axios.delete('/eventService/deleteEvent/'+this.state.event._id)
             .then(data=>{
                 this.setState({isEventDeleted: !this.state.isEventDeleted});
             });
         
     }
+
 
     render() {
         let heading = (<div></div>);
@@ -73,6 +75,11 @@ class EventDetails extends Component {
                 </ul>
                 <div className={styles.fab}><i className="fa fa-arrow-down fa-3x"> </i></div>
                 <button onClick={()=>this.deleteEventHandler(this.props)} className="btn btn-warning">Delete</button>
+                <Link to={this.state.event ? "/eventExam/"+this.state.event._id : ""}>
+                    <button
+                            className="btn btn-success">Start Event
+                    </button>
+                </Link>
                 </div>
                 <div>
                 </div>

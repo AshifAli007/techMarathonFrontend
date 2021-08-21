@@ -3,6 +3,7 @@ import Main from './containers/MainLayout/MainLayout'
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
 import {React, Component} from 'react';
+import Loader from './components/Loader/Loader';
 
 class App extends Component {
   componentDidMount() {
@@ -10,13 +11,14 @@ class App extends Component {
   }
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter>   
             <Main></Main>
       </BrowserRouter>
     );
   }
 
 }
+
 
 const mapDispatchToProps = (dispatch) =>{
   return {

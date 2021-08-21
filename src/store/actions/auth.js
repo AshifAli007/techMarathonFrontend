@@ -1,5 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import camelcase from 'camelcase';
+import userResponses from '../../assets/userResponse';
+
 export const authStart = () =>{
     return{
         type: actionTypes.AUTH_START,
@@ -24,6 +27,7 @@ export const logout = ()=>{
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userResponses');
     return {
         type: actionTypes.AUTH_LOGOUT
     }
@@ -38,6 +42,40 @@ export const checkAuthTimeout = (expirationTime) => {
 }
 
 export const auth = (email, password, isSignUp) =>{
+    const getUserResponses = async (token) => {
+        return new Promise((resolve, reject) =>{
+            axios.get('/eventService/getEvents',{
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }).then(res=>{
+                const events = res.data.data;
+                let userResponse = {};
+                events.map(event=>{
+                    let answers = [];
+                    event.questions.map(question=>{
+                        let data = {
+                            qid: question.qid,
+                            userAns: null,
+                        }
+                        answers.push(data);
+                    })
+                    let data = {
+                        eventName: event.name,
+                        eventCode: event.eventCode,
+                        currentQuestion: 1,
+                        responses: answers,
+                    }
+                    userResponse[event.eventCode] = data;
+                })
+                console.log(userResponse);
+                resolve(userResponse);
+            }).catch(err=>{
+                reject(err);
+            })
+        })
+
+    }
     return dispatch=>{
         dispatch(authStart());
         const authData = {
@@ -47,16 +85,18 @@ export const auth = (email, password, isSignUp) =>{
                 privileges: 'user'
             }   
         }
-        let url = "http://localhost:8000/v1/userService/login";
+        let url = "/userService/login";
         if(isSignUp){
-            url = "http://localhost:8000/v1/userService/sign-up";
+            url = "/userService/sign-up";
         }
         axios.post(url, authData)
-            .then(response=>{
+            .then( async (response)=>{
+                let userResponse = await getUserResponses(response.data.data.accessToken);
                 const expirationDate = new Date(new Date().getTime() + response.data.data.expireIn*1000);
                 localStorage.setItem('token', response.data.data.accessToken);
                 localStorage.setItem('expirationDate', expirationDate);
-                localStorage.setItem('userId', response.data.data.userId);
+                localStorage.setItem('userId', JSON.stringify(response.data.data.userId));
+                localStorage.setItem('userResponses', JSON.stringify(userResponse));
                 dispatch(authSuccess(response.data.data.accessToken, response.data.data.userId));
                 dispatch(checkAuthTimeout(response.data.data.expireIn));
             })

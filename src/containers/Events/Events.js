@@ -3,20 +3,22 @@ import Event from '../../components/Event/Event';
 import styles from  './Events.module.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import Loader from '../../components/Loader/Loader';
 
 class Events extends Component {
     state ={
         events: [],
+        loading: true,
     }
     componentDidMount(){
-        axios.get('http://localhost:8000/v1/eventService/getEvents',{
+        axios.get('/eventService/getEvents',{
             headers: {
                 'Authorization': `Bearer ${this.props.token}`,
             }
         })
                 .then(res=>{
                     const events = res.data.data;
-                    this.setState({events: events});
+                    this.setState({events: events, loading: false});
 
                 });
     }
@@ -39,21 +41,25 @@ class Events extends Component {
         return timeToLive;
     }
     render() {
-
-        const post = this.state.events.map(event=>{
+        let post = <Loader />;
+     
+        post = this.state.events.map(event=>{
 
             return <Event 
-            key={event._id} 
-            id={event._id}
-            event = {event.name} 
-            content = {event.description} 
-            timeToLive = {this.timeToLive(event.endTime)}
-            isAuthenticated = {this.props.isAuthenticated}
-            />
+                    key={event._id} 
+                    id={event._id}
+                    event = {event.name} 
+                    content = {event.description} 
+                    timeToLive = {this.timeToLive(event.endTime)}
+                    isAuthenticated = {this.props.isAuthenticated}
+                />
+    
         });
+
+        
         return (
             <div className={"row justify-content-start "+ styles.row}>
-                        {post}
+                        {this.state.loading ? <Loader />: (post)}
                 </div>
         );
     }

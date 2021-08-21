@@ -1,57 +1,36 @@
 import React, { Component } from 'react';
 import styles from './Question.module.css';
+import Options from './Options/Options';
 
 class Question extends Component {
     state = {
-        index: this.props.res,
-        active: true
+        forceReRender : true,
     }
-    componentDidMount() {
-        // let res = this.props.res == option.key ? true : false;
-
-        this.setState({index: this.props.res});
+    forceReRender = ()=>{
+        this.setState(state=>{
+            return {forceReRender: !state.forceReRender};
+        })
     }
-    toogleActiveClass = (index)=>{
-        if(this.state.index === index){
-            this.setState(state=>{
-                return {active: !state.active, index: null}
-            })
-            this.props.onOptionUpdate(null);
-        }else{
-            this.setState(state=>{
-                return {active:true, index: index}
-            });
-            this.props.onOptionUpdate(index);
-        }
+    onValueChange = (event)=>{
+        this.props.onOptionUpdate(event.target.value);
+        this.forceReRender();
     }
-    resetState = ()=>{
-        
-        this.setState({index:this.props.res, active:true});
+    render(){
+        let userResponses = JSON.parse(localStorage.getItem('userResponses'));
+        let currentEvent = userResponses[this.props.event];
+        let currentQuestion = currentEvent.responses[this.props.details.qid - 1];
+        let userAns = currentQuestion.userAns;
+        console.log(userAns);
 
-    }
-    render(){ 
-    const options = this.props.details.options.map((option, index)=>{
-        let res = this.props.res == option.key ? true : false;
-        // if(this.state.index == null){
-
-        // }
-        {var optionWithClass = res ?
-            <li key={option.key}
-                className={(this.state.active &&(this.state.index == option.key)) ? styles.active :''}>
-                <input onClick={()=>this.toogleActiveClass(option.key)} type="radio" id={option.key} name={this.props.details.qid}/>
-                <label for={option.key}>{option.text}</label>
-                <div className={styles.check}></div>
-            </li> :
-
-            <li key={option.key} 
-                className={(this.state.active &&(this.state.index == option.key)) ? styles.active :''}>
-                <input onClick={()=>this.toogleActiveClass(option.key)} type="radio" id={option.key} name={this.props.details.qid}/>
-                <label for={option.key}>{option.text}</label>
-                <div className={styles.check}></div>
-            </li>
-        }
+        const options = this.props.details.options.map((option, index)=>{
+        let checked = option.key === userAns;
         return (
-            (optionWithClass)
+            <Options option={option}
+                     event={this.props.event}
+                     details={this.props.details}
+                     onValueChange={this.onValueChange}
+                     checked={checked}
+            />
         )
     });
     return(
@@ -63,8 +42,8 @@ class Question extends Component {
         <ul>
             {options}
         </ul>
-        <button onClick={() => this.props.nextPrevHandler("prev", this.state.index,this.resetState())} className="btn btn-success">Previous</button>
-        <button onClick={() => this.props.nextPrevHandler("next", this.state.index,this.resetState())} className="btn btn-success">Next</button>
+        <button onClick={() => this.props.nextPrevHandler("prev")} className="btn btn-success">Previous</button>
+        <button onClick={() => this.props.nextPrevHandler("next")} className="btn btn-success">Next</button>
     </div>
     )  
     }

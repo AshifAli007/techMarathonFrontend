@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Lato");
 
 
-.container {
+/* .container {
 	background: #222222;
 	display: block;
 	position: relative;
@@ -9,20 +9,9 @@
 	height: auto;
 	width: 500px;
 	padding: 20px;
-}
+} */
 
-.container h2 {
-	color: #aaaaaa;
-}
-
-.container ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	overflow: auto;
-}
-
-.container ul li {
+.container li {
 	color: #aaaaaa;
 	display: block;
 	position: relative;
@@ -32,12 +21,12 @@
 	border-bottom: 1px solid #333;
 }
 
-.container ul li input[type="radio"] {
+.container li input[type="radio"] {
 	position: absolute;
 	visibility: hidden;
 }
 
-.container ul li label {
+.container li label {
 	display: block;
 	position: relative;
 	bottom: 6px;
@@ -51,11 +40,11 @@
 	-webkit-transition: all 0.25s linear;
 }
 
-.container ul li:hover label {
+.container li:hover label {
 	color: #ffffff;
 }
 
-.container ul li .check {
+.container li .check {
 	display: block;
 	position: absolute;
 	border: 5px solid #aaaaaa;
@@ -69,11 +58,11 @@
 	-webkit-transition: border 0.25s linear;
 }
 
-.container ul li:hover .check {
+.container li:hover .check {
 	border: 5px solid #ffffff;
 }
 
-.container ul li .check::before {
+.container li .check::before {
 	display: block;
 	position: absolute;
 	content: "";
@@ -87,7 +76,7 @@
 	-webkit-transition: background 0.25s linear;
 }
 
-.container .active  label {
+/* .container .active  label {
 	color: #0dff92;
 }
 .container .active  .check {
@@ -96,8 +85,8 @@
 .container .active  .check::before {
 	background: #0dff92;
 
-}
-/* .container input[type="radio"]:checked ~ .check {
+} */
+.container input[type="radio"]:checked ~ .check {
 	border: 5px solid #0dff92;
 }
 
@@ -107,7 +96,7 @@
 
 .container input[type="radio"]:checked ~ label {
 	color: #0dff92;
-} */
+}
 
 
 

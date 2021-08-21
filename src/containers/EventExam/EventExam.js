@@ -29,13 +29,14 @@ class EventExam extends Component {
                 const event = res.data.data;
                 let currentEvent = JSON.parse(localStorage.getItem('userResponses'));
                 currentEvent = currentEvent[event.eventCode];
-                
+
                 let currentQuestion = event.questions.filter(question => question.qid === currentEvent.currentQuestion)[0];
                 console.log(currentQuestion);
                 let currentQuestionResponse = currentEvent.responses[currentEvent.currentQuestion - 1];
                 console.log(currentQuestionResponse);
                 const newQuestion = <Question nextPrevHandler ={this.onClickNextAndPrevHandler}  
                                                 details={currentQuestion} 
+                                                event={event.eventCode}
                                                 onOptionUpdate = {this.onOptionUpdate}
                                                 res = {currentQuestionResponse.userAns} />
                 this.setState({event: event, currentQuestion: currentEvent.currentQuestion, question: newQuestion});
@@ -59,9 +60,11 @@ class EventExam extends Component {
         
 
         let updatedEvent = prevResponse[this.state.event.eventCode];
-        let currentQuestion = updatedEvent.responses[updatedEvent.currentQuestion - 1];
+        let currentQuestion = updatedEvent.responses[updatedEvent.currentQuestion];
+        console.log('from onQuestionChange', currentQuestion, currentQuestion.userAns, updatedEvent.currentQuestion);
         const newQuestion = <Question nextPrevHandler ={this.onClickNextAndPrevHandler}  
                                         details={question} 
+                                        event={this.state.event.eventCode}
                                         onOptionUpdate = {this.onOptionUpdate}
                                         res = {currentQuestion.userAns} />
         updatedEvent.currentQuestion = question.qid;
@@ -81,6 +84,7 @@ class EventExam extends Component {
         }else if(action == "next"){
             if(this.state.currentQuestion !== this.state.event.questions.length)
                 currentQuestion = this.state.currentQuestion + 1;
+                console.log('from next handler',currentQuestion);
         }
         const question = this.state.event.questions.filter(question => question.qid === currentQuestion)
         console.log(question);

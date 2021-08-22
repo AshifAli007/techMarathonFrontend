@@ -11,8 +11,13 @@ class Question extends Component {
             return {forceReRender: !state.forceReRender};
         })
     }
-    onValueChange = (event)=>{
-        this.props.onOptionUpdate(event.target.value);
+    onValueChange = (val, event)=>{
+        if(val){
+            console.log('null send');
+            this.props.onOptionUpdate(null);
+        }else{
+            this.props.onOptionUpdate(event.target.value);
+        }
         this.forceReRender();
     }
     render(){

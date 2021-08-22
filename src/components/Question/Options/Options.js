@@ -12,8 +12,8 @@ class Options extends Component {
             <li>
                 <input  value={this.props.option.key} 
                         checked={this.props.checked}
-                        onChange={this.props.onValueChange} 
-                        type="radio" 
+                        onClick={this.props.onValueChange.bind(this, this.props.checked)}
+                        type="radio"
                         id={this.props.option.key} 
                         name={this.props.details.qid}
                 />

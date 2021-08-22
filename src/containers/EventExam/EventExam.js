@@ -50,9 +50,8 @@ class EventExam extends Component {
         let currentQuestion = updatedEvent.responses[updatedEvent.currentQuestion - 1];
         currentQuestion.userAns = selectedOption;
         updatedEvent.responses[updatedEvent.currentQuestion-1] = currentQuestion;
-
+    
         prevResponse[this.state.event.eventCode] = updatedEvent;
-
         localStorage.setItem('userResponses', JSON.stringify(prevResponse));
     }
     onQuestionChange = (question)=>{
@@ -60,13 +59,11 @@ class EventExam extends Component {
         
 
         let updatedEvent = prevResponse[this.state.event.eventCode];
-        let currentQuestion = updatedEvent.responses[updatedEvent.currentQuestion];
-        console.log('from onQuestionChange', currentQuestion, currentQuestion.userAns, updatedEvent.currentQuestion);
         const newQuestion = <Question nextPrevHandler ={this.onClickNextAndPrevHandler}  
-                                        details={question} 
+                                        details={question}
                                         event={this.state.event.eventCode}
                                         onOptionUpdate = {this.onOptionUpdate}
-                                        res = {currentQuestion.userAns} />
+                                    />
         updatedEvent.currentQuestion = question.qid;
 
         prevResponse[this.state.event.eventCode] = updatedEvent;

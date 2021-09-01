@@ -11,7 +11,7 @@ function Event(props){
             <div className={"col " + cx(styles.container, styles.event)}>
                 <div className={styles.card}>
                     <h2>{props.event}</h2>
-                    <CountDownTimer hoursMinSecs={hoursMinSecs}/>
+                        <CountDownTimer hoursMinSecs={hoursMinSecs}/>
                     {/* <p>{props.content}</p> */}
                 
                         <Link to={props.isAuthenticated ? "/event/"+id : "/authentication"}>

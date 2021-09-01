@@ -8,7 +8,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import authReducer from './store/reducers/auth';
-import '../node_modules/font-awesome/css/font-awesome.min.css'; 
+// import '../node_modules/font-awesome/css/font-awesome.min.css'; 
+import '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/free-solid-svg-icons';
+import '@fortawesome/react-fontawesome';
+import 'font-awesome/css/font-awesome.min.css';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 

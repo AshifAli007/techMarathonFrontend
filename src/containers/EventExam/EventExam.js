@@ -1,9 +1,11 @@
 import React, { Component} from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom'
 import Question from '../../components/Question/Question';
 import styles from './EventExam.module.css';
-import camelcase from 'camelcase';
+import Loader from '../../components/Loader/Loader';
+import $ from 'jquery';
 
 class EventExam extends Component {
     constructor(props)
@@ -16,6 +18,7 @@ class EventExam extends Component {
             question: null,
             currentQuestion : null,
             optionSelected: null,
+            loading: true,
         }
     }
 
@@ -39,7 +42,7 @@ class EventExam extends Component {
                                                 event={event.eventCode}
                                                 onOptionUpdate = {this.onOptionUpdate}
                                                 res = {currentQuestionResponse.userAns} />
-                this.setState({event: event, currentQuestion: currentEvent.currentQuestion, question: newQuestion});
+                this.setState({event: event, currentQuestion: currentEvent.currentQuestion, question: newQuestion, loading: false});
             });            
     }
     onOptionUpdate = (selectedOption)=>{
@@ -88,7 +91,34 @@ class EventExam extends Component {
         this.onQuestionChange(question[0]);
 
     }
-
+    onFinalSubmitHandler = ()=>{
+        const header = {
+            headers:{
+                'Authorization' : `Bearer ${this.props.token}`,
+            }
+        };
+        const eventCode = this.state.event.eventCode;
+        const data = {
+            "responseDetails" : {
+                    "eventCode": eventCode,
+                    "user": JSON.parse(localStorage.getItem("userId")),
+                    "email":'1@2.com',
+                    "phone":'0123456789',
+                    "college":'DDUC',
+                    "response": JSON.parse(localStorage.getItem("userResponses"))[eventCode].responses,
+                    "timeLeft":"24:36",
+            }
+        }
+        axios.post('/quizService/addResponse', data, header)
+            .then(res=>{
+                console.log($('.myModal'));
+                $('.myModal').css('display', 'block');
+                console.log(res);
+            });
+    }
+    closeModal = () =>{
+        $('.myModal').css('display', 'none');
+    }
     render() {
         let questionsDiv = null
         if(this.state.event){
@@ -100,7 +130,8 @@ class EventExam extends Component {
             });
         }
         return (
-            <div>
+            this.state.loading ? <Loader/> :
+            (<div>
 
                 {questionsDiv}
                 {this.state.event ? <div>{this.state.event.name}</div> : <div>no event</div>
@@ -108,7 +139,14 @@ class EventExam extends Component {
 
                 }
                 {this.state.question}
-            </div>
+                <button className="btn btn-warning" onClick={this.onFinalSubmitHandler}>Final Submit</button>
+                {/* ------------------MODAL------------ */}
+                <div className={styles.myModal + " myModal"}>
+                    <p className="myModal">Are You Sure!</p>
+                    <button className="btn btn-info" onClick={this.closeModal}>No</button>
+                    <Link to="/events"><button className="btn btn-info">Yes</button></Link>
+                </div>
+            </div>)
             
 
         )

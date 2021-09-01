@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import classes from './Auth.css';
+import styles from './Auth.module.css';
 import * as actions from '../../store/actions/index';
 
 class Auth extends Component {
@@ -36,7 +36,7 @@ class Auth extends Component {
                 touched: false
             }
         },
-        isSignUp: true,
+        isSignUp: false,
         
     }
 
@@ -100,11 +100,12 @@ class Auth extends Component {
                 config: this.state.controls[key]
             } );
         }
-
         const form = formElementsArray.map( formElement => (
             <input
                 key={formElement.id}
                 value={formElement.config.value}
+                placeholder={formElement.config.elementConfig.placeholder}
+                type={formElement.config.elementConfig.type}
                 onChange={( event ) => this.inputChangedHandler( event, formElement.id )} />
         ) );
         let authRedirect = null;
@@ -112,14 +113,27 @@ class Auth extends Component {
             authRedirect = <Redirect to="/events"/>
         }
         return (
-            <div className={classes.Auth}>
+            <div className={styles.login}>
                 {authRedirect}
-                <form onSubmit={this.submitHandler}>
+                <div className={styles.form}>
+                    <h2>Welcome</h2>
                     {form}
-                    <button type="submit">SUBMIT</button> 
-                    <button onClick={this.signInUpHandler}>{this.state.isSignUp ? "Sign In": "Sign Up"}</button>
-                </form>
+                    <input type="submit" 
+                           onClick={this.submitHandler}
+                           className={styles.submit} 
+                           value={this.state.isSignUp ? "Sign Up" : "Sign In"}/>
+                    <p onClick={this.signInUpHandler}>
+                        {this.state.isSignUp ?
+                             "Already Have An ID Login":
+                             "Create New ID"}
+                    </p>
+
+                    </div>
             </div>
+
+
+
+
         );
     }
 }
@@ -136,4 +150,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);
-// export default Auth;

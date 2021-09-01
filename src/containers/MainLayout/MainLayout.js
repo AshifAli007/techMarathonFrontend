@@ -7,6 +7,9 @@ import AddEvent from '../AddEvent/AddEvent';
 import Auth from '../Auth/Auth';
 import { connect } from 'react-redux';
 import Logout from '../Auth/logout/logout';
+import Navbar from '../../components/Navbar/Navbar';
+import Responses from '../Responses/Responses';
+import Requests from '../Requests/Requests';
 
 class Main extends Component {
     render() {
@@ -25,19 +28,15 @@ class Main extends Component {
                     <Route path="/eventExam/:id" component={EventExam}/>
                     <Route path="/addEvent" component={AddEvent}/>
                     <Route path="/logout" component={Logout}/>
+                    <Route path="/responses" component={Responses}/>
+                    <Route path="/requests" component={Requests}/>
                     {/* <Redirect to="/events"/> */}
                 </Switch>
             )
         }
         return (
             <div>
-                <Link to="/events">Events</Link>
-                {this.props.isAuthenticated ? <Link to="/addEvent">Add Event</Link> : null}
-                { this.props.isAuthenticated 
-                    ?<Link to="/logout">Logout</Link>
-                    : <Link to="/authentication">Login</Link> } 
-                
-                <i className="fa fa-twitter"></i>
+                <Navbar/>
                     {routes}
 
             </div>

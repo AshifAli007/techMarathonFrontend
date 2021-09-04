@@ -14,18 +14,51 @@ class EventDetails extends Component {
         isEventDeleted: false,
         loading: true,
         isLive: false,
+        hasRegistered: false,
+        hasSubmitted: false,
     }
     componentDidMount(){
+        let event = {};
         axios.get('/eventService/getEvent/'+this.props.match.params.id,{
             headers:{
                 'Authorization' : `Bearer ${this.props.token}`,
             }
         })
             .then(res=>{
-                const event = res.data.data;
-                console.log(event);
-                this.setState({event: event, loading:false});
+                event = res.data.data;
+                this.setState({event: event});
+                axios.get('/quizService/getRequests',{
+                    headers: {
+                        'Authorization': `Bearer ${this.props.token}`,
+                    }
+                }).then(res=>{
+                    const requests = res.data.data;
+                    requests.map(request=>{
+                        const user = JSON.stringify(request.user);
+                        const localUser = localStorage.getItem('userId');
+                        if((request.eventCode === this.state.event.eventCode) && (user===localUser))
+                            this.setState({hasRegistered: true});
+                    })
+                })
+                axios.get('/quizService/getResponses',{
+                    headers: {
+                        'Authorization': `Bearer ${this.props.token}`,
+                    }
+                }).then(res=>{
+                    const responses = res.data.data;
+                    responses.map(response=>{
+                        const user = JSON.stringify(response.user);
+                        const localUser = localStorage.getItem('userId');
+                        if((response.eventCode === this.state.event.eventCode) && (user===localUser))
+                            this.setState({hasSubmitted: true});
+                    })
+                    this.setState({loading: false});
+                })
             });
+
+
+
+        
     }
 
     deleteEventHandler(props){
@@ -79,13 +112,13 @@ class EventDetails extends Component {
             .then(res=>{
                 console.log(res);
             });
+
+            this.props.history.push('/events');
     }
     render() {
         let heading = (<div></div>);
         
-        console.log(this.props.match.params.id);
         if(this.state.event){
-            console.log(this.state.event)
             const eventName = this.state.event.name;
             let words = eventName.split(' ');
             heading = (
@@ -98,6 +131,8 @@ class EventDetails extends Component {
 
         
         return(
+            
+
             this.state.loading ?
                 <Loader /> : 
 
@@ -127,15 +162,19 @@ class EventDetails extends Component {
                     <div className={styles.fab}><i className="fa fa-arrow-down fa-3x"> </i></div>
                     <button onClick={()=>this.deleteEventHandler(this.props)} className="btn btn-warning">Delete</button>
                     {   this.state.isLive?
+                        this.state.hasSubmitted?
+                            <p className="btn btn-info">We Have Recieved Your Submission</p>
+                        :
                         <Link to={this.state.event ? "/eventExam/"+this.state.event._id : ""}>
                             <button
                                     className="btn btn-success">Start Event
                             </button>
-                        </Link>:
+                        </Link>: this.state.hasRegistered?
+                            <p className="btn btn-info"> Already Registered</p>
+                        :
                         <button onClick={this.onPreRegisterHandler} className="btn btn-info">Pre-Register</button>
                     }
-                    <CountDownTimer hoursMinSecs={this.timeToLive( this.state.event.endTime)}/>
-
+                    <CountDownTimer hoursMinSecs={this.timeToLive(this.state.event.endTime)}/>
                     </div>
                     <div>
                     </div>

@@ -15,11 +15,12 @@ class EventDetails extends Component {
         loading: true,
         isLive: false,
         hasRegistered: false,
+        hasStarted: false,
         hasSubmitted: false,
     }
-    componentDidMount(){
+    async componentDidMount(){
         let event = {};
-        axios.get('/eventService/getEvent/'+this.props.match.params.id,{
+        await axios.get('/eventService/getEvent/'+this.props.match.params.id,{
             headers:{
                 'Authorization' : `Bearer ${this.props.token}`,
             }
@@ -52,10 +53,24 @@ class EventDetails extends Component {
                         if((response.eventCode === this.state.event.eventCode) && (user===localUser))
                             this.setState({hasSubmitted: true});
                     })
-                    this.setState({loading: false});
                 })
             });
-
+            await axios.get('userService/getUsers/',{
+                headers:{
+                    'Authorization' : `Bearer ${this.props.token}`,
+                }
+            })
+                .then(res=>{
+                    console.log("Users Data",res.data.data);
+                    const currentUser = JSON.parse(localStorage.getItem('userId'));
+                    const user = res.data.data.filter(user=> user._id === currentUser._id)[0];
+                    console.log('curr user', user);
+                    const eventExist = user.events.filter(event=> this.state.event.eventCode === event.eventCode)[0];
+                    if(eventExist){
+                        this.setState({hasStarted: true});
+                    }
+                    this.setState({loading: false});
+                });
 
 
         
@@ -167,7 +182,7 @@ class EventDetails extends Component {
                         :
                         <Link to={this.state.event ? "/eventExam/"+this.state.event._id : ""}>
                             <button
-                                    className="btn btn-success">Start Event
+                                    className="btn btn-success">{this.state.hasStarted ? "Resume Event":"Start Event"}
                             </button>
                         </Link>: this.state.hasRegistered?
                             <p className="btn btn-info"> Already Registered</p>

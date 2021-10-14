@@ -6,6 +6,7 @@ import Question from '../../components/Question/Question';
 import styles from './EventExam.module.css';
 import Loader from '../../components/Loader/Loader';
 import $ from 'jquery';
+import CountDownTimer from '../../components/CountDownTimer/CountDownTimer';
 
 class EventExam extends Component {
     constructor(props)
@@ -15,15 +16,17 @@ class EventExam extends Component {
             event: null,
             eventName: null,
             isEventDeleted: false,
+            isTimeEnded:false,
             question: null,
             currentQuestion : null,
             optionSelected: null,
+            endTime: null,
             loading: true,
         }
     }
 
-    componentDidMount(){
-        axios.get('/eventService/getEvent/'+this.props.match.params.id,{
+    async componentDidMount(){
+        await axios.get('/eventService/getEvent/'+this.props.match.params.id,{
             headers:{
                 'Authorization' : `Bearer ${this.props.token}`,
             }
@@ -42,8 +45,60 @@ class EventExam extends Component {
                                                 event={event.eventCode}
                                                 onOptionUpdate = {this.onOptionUpdate}
                                                 res = {currentQuestionResponse.userAns} />
-                this.setState({event: event, currentQuestion: currentEvent.currentQuestion, question: newQuestion, loading: false});
-            });            
+                this.setState({event: event, currentQuestion: currentEvent.currentQuestion, question: newQuestion});
+
+            });  
+            
+            await axios.get('userService/getUsers/',{
+                headers:{
+                    'Authorization' : `Bearer ${this.props.token}`,
+                }
+            })
+                .then(res=>{
+                    console.log("Users Data",res.data.data);
+                    const currentUser = JSON.parse(localStorage.getItem('userId'));
+                    const user = res.data.data.filter(user=> user._id === currentUser._id)[0];
+                    console.log('curr user', user);
+                    const eventExist = user.events.filter(event=> this.state.event.eventCode === event.eventCode)[0];
+                    let endTime = null;
+                    if(eventExist){
+                        console.log('event exists');
+                        endTime = eventExist.endTime;
+                    }else{
+                        endTime = new Date();
+                        endTime.setMinutes(endTime.getMinutes() + this.state.event.duration);
+                        const eventToAdd = {
+                            eventCode: this.state.event.eventCode,
+                            endTime: endTime,
+                        }
+                        console.log(eventToAdd);
+                        const url = 'userService/updateUser/';
+                        axios.put(url,{
+                            userDetails:{
+                                _id: user._id,
+                                eventToAdd: eventToAdd,
+                            }
+                            
+                        },{
+                            headers:{
+                                'authorization' : `Bearer ${this.props.token}`,
+                            }
+                        }).then(res=>{
+                            console.log(res);
+                            this.setState({endTime : endTime});
+                            this.setState({loading: false});
+                        })
+                      
+                    }
+                    this.setState({endTime : endTime});
+                    this.setState({loading: false});
+                    const today = new Date();
+                    const timeout = Date.parse(endTime) - today.getTime();
+                    setTimeout(()=>{
+                        this.setState({isTimeEnded: true});
+                    }, timeout);
+
+                });
     }
     onOptionUpdate = (selectedOption)=>{
         console.log(selectedOption);
@@ -91,6 +146,28 @@ class EventExam extends Component {
         this.onQuestionChange(question[0]);
 
     }
+    timeToEnd = (endTime) =>{
+        let today = new Date();
+
+        let diffInMilliSecs = Date.parse(endTime) - today.getTime();
+
+        let days = Math.floor(diffInMilliSecs/(1000*60*60*24));
+        let hours = Math.floor((diffInMilliSecs/(1000*60*60))%24);
+        let minutes = Math.floor((diffInMilliSecs/(1000*60))%60);
+        let seconds = Math.floor((diffInMilliSecs/(1000))%60);
+        
+        let timeToLive = {
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds:seconds
+        }
+        // if(days <=0 && hours<=0 && minutes<=0 && seconds<=0){
+        //     if(!this.state.isLive)
+        //         this.setState({isLive: true});
+        // }
+        return timeToLive;
+    }
     onFinalSubmitHandler = ()=>{
         const header = {
             headers:{
@@ -111,7 +188,9 @@ class EventExam extends Component {
         }
         axios.post('/quizService/addResponse', data, header)
             .then(res=>{
-                console.log($('.myModal'));
+                if(this.state.isTimeEnded){
+                    this.props.history.push('/events');
+                }
                 $('.myModal').css('display', 'block');
                 console.log(res);
             });
@@ -132,7 +211,8 @@ class EventExam extends Component {
         return (
             this.state.loading ? <Loader/> :
             (<div>
-
+                {this.state.isTimeEnded? this.onFinalSubmitHandler(): null}
+                <CountDownTimer hoursMinSecs={this.timeToEnd(this.state.endTime)}/>
                 {questionsDiv}
                 {this.state.event ? <div>{this.state.event.name}</div> : <div>no event</div>
 

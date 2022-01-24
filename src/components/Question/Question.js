@@ -42,13 +42,34 @@ class Question extends Component {
         
     <div className={styles.container}>
         
-        <h2>{this.props.details.text}</h2>
+        <div className={styles.ques}>{this.props.details.text}</div>
         
-        <ul>
+        <ul style={{padding:'0', marginTop:'3%'}}>
             {options}
         </ul>
-        <button onClick={() => this.props.nextPrevHandler("prev")} className="btn btn-success">Previous</button>
-        <button onClick={() => this.props.nextPrevHandler("next")} className="btn btn-success">Next</button>
+        <button 
+            onClick={() => this.props.nextPrevHandler("prev")} 
+            className="btn btn-success"
+            style={{
+                position: "absolute",
+                bottom: '3%',
+                left: '3%'
+            }}
+        >Previous
+        </button>
+        <div>
+        <button 
+            onClick={() => this.props.nextPrevHandler("next")} 
+            className="btn btn-success"
+            style={{
+                position: 'absolute',
+                bottom: '3%',
+                right: '3%',
+            }}
+        >Next
+        </button>
+        </div>
+        
     </div>
     )  
     }

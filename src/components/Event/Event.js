@@ -3,14 +3,16 @@ import styles from './Event.module.css';
 import {Link} from 'react-router-dom';
 import cx from 'classnames';
 import CountDownTimer from '../../components/CountDownTimer/CountDownTimer';
+
 function Event(props){
-    let id = props.id;
+    let id = props.event._id;
     let hoursMinSecs = props.timeToLive;
+    console.log(props.event);
     return(
             
             <div className={"col " + cx(styles.container, styles.event)}>
                 <div className={styles.card}>
-                    <h2>{props.event}</h2>
+                    <h2>{props.event.name}</h2>
                         <CountDownTimer hoursMinSecs={hoursMinSecs}/>
                     {/* <p>{props.content}</p> */}
                 
@@ -21,7 +23,8 @@ function Event(props){
                         </Link>
                    
                     
-                    <div className={styles.pic}></div>
+                    <div className={styles.pic}>
+                    </div>
                     <ul>
                         <li></li>
                         <li></li>

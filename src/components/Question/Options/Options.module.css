@@ -12,12 +12,13 @@
 } */
 
 .container li {
+	display: flex;
+	align-items:center;
 	color: #aaaaaa;
-	display: block;
 	position: relative;
 	float: left;
 	width: 100%;
-	height: 100px;
+	height: 50px;
 	border-bottom: 1px solid #333;
 }
 
@@ -27,15 +28,7 @@
 }
 
 .container li label {
-	display: block;
-	position: relative;
-	bottom: 6px;
-	font-weight: 300;
-	font-size: 1.35em;
-	padding: 25px 25px 25px 80px;
-	margin: 10px auto;
-	height: 30px;
-	z-index: 9;
+	padding: 25px 25px 25px 45px;
 	cursor: pointer;
 	-webkit-transition: all 0.25s linear;
 }
@@ -47,11 +40,11 @@
 .container li .check {
 	display: block;
 	position: absolute;
-	border: 5px solid #aaaaaa;
+	border: 2px solid #aaaaaa;
 	border-radius: 100%;
-	height: 31px;
-	width: 31px;
-	top: 30px;
+	height: 15px;
+	width: 15px;
+	top: 18px;
 	left: 20px;
 	z-index: 5;
 	transition: border 0.25s linear;
@@ -59,7 +52,7 @@
 }
 
 .container li:hover .check {
-	border: 5px solid #ffffff;
+	border: 2px solid #ffffff;
 }
 
 .container li .check::before {
@@ -67,10 +60,10 @@
 	position: absolute;
 	content: "";
 	border-radius: 100%;
-	height: 15px;
-	width: 15px;
-	top: 3px;
-	left: 3px;
+	height: 7px;
+	width: 7px;
+	top: 1.5px;
+	left: 1.8px;
 	margin: auto;
 	transition: background 0.25s linear;
 	-webkit-transition: background 0.25s linear;
@@ -87,7 +80,7 @@
 
 } */
 .container input[type="radio"]:checked ~ .check {
-	border: 5px solid #0dff92;
+	border: 2px solid #0dff92;
 }
 
 .container input[type="radio"]:checked ~ .check::before {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route, Link, Switch, Redirect} from 'react-router-dom';
+import {Route, Link, Switch, Redirect , BrowserRouter} from 'react-router-dom';
 import Events from '../Events/Events';
 import EventDetails from '../EventDetails/EventDetails';
 import EventExam from '../EventExam/EventExam';
@@ -10,6 +10,8 @@ import Logout from '../Auth/logout/logout';
 import Navbar from '../../components/Navbar/Navbar';
 import Responses from '../Responses/Responses';
 import Requests from '../Requests/Requests';
+
+import history from '../../store/actions/history';
 
 class Main extends Component {
     render() {
@@ -37,7 +39,8 @@ class Main extends Component {
         return (
             <div>
                 <Navbar/>
-                    {routes}
+
+                {routes}
 
             </div>
                         

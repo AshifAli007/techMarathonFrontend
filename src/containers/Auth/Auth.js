@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styles from './Auth.module.css';
 import * as actions from '../../store/actions/index';
-
+import {message} from 'antd';
 class Auth extends Component {
+
     state = {
         controls: {
             email: {
@@ -37,6 +38,7 @@ class Auth extends Component {
             }
         },
         isSignUp: false,
+        isAuthenticated:false,
         
     }
 
@@ -81,15 +83,16 @@ class Auth extends Component {
                 touched: true
             }
         };
-        this.setState({controls: updatedControls});
+        this.setState({...this.state,controls: updatedControls});
     }
     signInUpHandler = (event) =>{
         event.preventDefault();
-        this.setState({isSignUp: !this.state.isSignUp});
+        this.setState({...this.state,isSignUp: !this.state.isSignUp});
     }
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp);
+        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp)
+        this.setState({...this.state, isAuthenticated:true});
     }
 
     render () {
@@ -105,16 +108,19 @@ class Auth extends Component {
                 key={formElement.id}
                 value={formElement.config.value}
                 placeholder={formElement.config.elementConfig.placeholder}
+                autoComplete='nill'
                 type={formElement.config.elementConfig.type}
                 onChange={( event ) => this.inputChangedHandler( event, formElement.id )} />
         ) );
-        let authRedirect = null;
-        if(this.props.isAuthenticated){
-            authRedirect = <Redirect to="/events"/>
-        }
+        let navItem = this.state.isAuthenticated &&
+            <>
+                <Redirect to="/events"/>
+                {console.log('hii this is treu')}
+            </>;
+
         return (
             <div className={styles.login}>
-                {authRedirect}
+                {navItem}
                 <div className={styles.form}>
                     <h2>Welcome</h2>
                     {form}
@@ -122,26 +128,24 @@ class Auth extends Component {
                            onClick={this.submitHandler}
                            className={styles.submit} 
                            value={this.state.isSignUp ? "Sign Up" : "Sign In"}/>
-                    <p onClick={this.signInUpHandler}>
+                    {/* <p onClick={this.signInUpHandler}>
                         {this.state.isSignUp ?
                              "Already Have An ID Login":
                              "Create New ID"}
-                    </p>
+                    </p> */}
 
                     </div>
             </div>
-
-
-
-
         );
     }
 }
 const mapStateToProps = (state) =>{
-    return{
-        isAuthenticated: state.auth.token !== null,
+    console.log('duck you');
+    console.log(state.auth.token);
+    return {
+        isAuthenticated: state.auth.token !== null
     }
-}
+  }
 
 const mapDispatchToProps = dispatch => {
     return {

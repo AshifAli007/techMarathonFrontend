@@ -1,13 +1,15 @@
 .questionBox {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    width: 80px;
+    height: 80px;
     background-color:grey;
-    margin: 20px;
+    margin: 5px;
     cursor: pointer;
     text-align: center;
-    /* padding:10px 0px 10px 0px; */
-    line-height:100px;
+    font-size:30px;
+    border-radius: 5px;
 }
 
 .myModal{
@@ -22,4 +24,36 @@
     width: 300px;
     height: 100px;
     box-shadow: 2px 2px 2px;
+}
+.container{
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    justify-content: center;
+    
+}
+.allQuestions{
+    display: flex;
+    flex-flow: row wrap;
+    flex-basis: 35%;
+    align-content: flex-start;
+    margin: 0;
+}
+.currentQuestion{
+    display: flex;
+    flex-basis: 60%;
+    justify-content: space-between;
+    flex-flow: column ;
+    /* height:500px; */
+    margin: 0;
+    /* width:500px; */
+}
+.eventName{
+    font-size: 52px;
+    position: relative;
+    bottom:5%;
+    font-family: monospace;
+    text-align: center;
+    position: relative;
+    bottom: 50px;
 }

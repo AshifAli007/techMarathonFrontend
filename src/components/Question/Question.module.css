@@ -3,18 +3,19 @@
 
 .container {
 	background: #222222;
-	display: block;
-	position: relative;
-	margin: 40px auto;	
-	height: auto;
-	width: 500px;
-	padding: 20px;
+    display: block;
+    position: relative;
+    height: 90%;
+    width: 100%;
+    padding: 20px;
+	border-radius: 2%;
 }
 
-.container h2 {
+.container .ques {
 	color: #aaaaaa;
+	font-size: 20px;
 }
-
+/* 
 .container ul {
 	list-style: none;
 	margin: 0;
@@ -97,7 +98,7 @@
 	background: #0dff92;
 
 }
-/* .container input[type="radio"]:checked ~ .check {
+.container input[type="radio"]:checked ~ .check {
 	border: 5px solid #0dff92;
 }
 

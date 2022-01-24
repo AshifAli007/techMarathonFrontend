@@ -17,8 +17,9 @@ class Options extends Component {
                         id={this.props.option.key} 
                         name={this.props.details.qid}
                 />
-                <label for={this.props.option.key}>{this.props.option.text}</label>
                 <div className={styles.check}></div>
+                <label for={this.props.option.key}>{this.props.option.text}</label>
+                
             </li>
             </div>
         )

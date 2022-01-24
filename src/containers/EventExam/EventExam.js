@@ -6,6 +6,10 @@ import Question from '../../components/Question/Question';
 import styles from './EventExam.module.css';
 import Loader from '../../components/Loader/Loader';
 import $ from 'jquery';
+import Countdown from 'react-countdown';
+import { message } from 'antd';
+
+const userId = JSON.parse(localStorage.getItem('userId'))['_id'];
 
 class EventExam extends Component {
     constructor(props)
@@ -19,9 +23,12 @@ class EventExam extends Component {
             currentQuestion : null,
             optionSelected: null,
             loading: true,
+            endTime:"",
         }
     }
-
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
     componentDidMount(){
         axios.get('/eventService/getEvent/'+this.props.match.params.id,{
             headers:{
@@ -30,6 +37,18 @@ class EventExam extends Component {
         })
             .then(res=>{
                 const event = res.data.data;
+                this.getEndTime(userId, event.eventCode).then((endTime)=>{
+                    if(Date.now() > endTime){
+                        console.log('time over');
+                    }else{
+                        console.log(endTime - Date.now());
+                        this.timer = setTimeout(()=>{
+                            this.onFinalSubmitHandler();
+                            
+                        },endTime - Date.now());
+                    }
+                    
+                });
                 let currentEvent = JSON.parse(localStorage.getItem('userResponses'));
                 currentEvent = currentEvent[event.eventCode];
 
@@ -44,6 +63,21 @@ class EventExam extends Component {
                                                 res = {currentQuestionResponse.userAns} />
                 this.setState({event: event, currentQuestion: currentEvent.currentQuestion, question: newQuestion, loading: false});
             });            
+    }
+    getEndTime = async(userId, eventCode) =>{
+        const {data} = await axios.get(`/quizService/getEndTime/${userId}/${eventCode}`,
+        {
+            headers:{
+                'Authorization' : `Bearer ${this.props.token}`,
+            }
+        }
+        );
+        const endTime = data.data[0].endTime;
+        if(data.data.length){
+            this.setState({endTime: endTime});
+            return endTime;
+        }
+        
     }
     onOptionUpdate = (selectedOption)=>{
         console.log(selectedOption);
@@ -91,7 +125,7 @@ class EventExam extends Component {
         this.onQuestionChange(question[0]);
 
     }
-    onFinalSubmitHandler = ()=>{
+    onFinalSubmitHandler = async()=>{
         const header = {
             headers:{
                 'Authorization' : `Bearer ${this.props.token}`,
@@ -109,11 +143,11 @@ class EventExam extends Component {
                     "timeLeft":"24:36",
             }
         }
-        axios.post('/quizService/addResponse', data, header)
+        await axios.post('/quizService/addResponse', data, header)
             .then(res=>{
-                console.log($('.myModal'));
                 $('.myModal').css('display', 'block');
-                console.log(res);
+                message.success('Responses submitted successfully');
+                this.props.history.push('/events');
             });
     }
     closeModal = () =>{
@@ -131,22 +165,35 @@ class EventExam extends Component {
         }
         return (
             this.state.loading ? <Loader/> :
-            (<div>
-
-                {questionsDiv}
-                {this.state.event ? <div>{this.state.event.name}</div> : <div>no event</div>
-
-
-                }
-                {this.state.question}
-                <button className="btn btn-warning" onClick={this.onFinalSubmitHandler}>Final Submit</button>
-                {/* ------------------MODAL------------ */}
-                <div className={styles.myModal + " myModal"}>
-                    <p className="myModal">Are You Sure!</p>
-                    <button className="btn btn-info" onClick={this.closeModal}>No</button>
-                    <Link to="/events"><button className="btn btn-info">Yes</button></Link>
+            <>
+             {this.state.event ?
+                <div className={styles.eventName}>
+                    {this.state.event.name}
+                    {console.log(Date.now() + 10000-parseInt(this.state.endTime))}
+                    {/* <Countdown date={Date.now()+ 10000}/> */}
+                    {this.state.endTime && <Countdown date={parseInt(this.state.endTime)}/>}
+                    
+                </div> 
+                :<div>no event</div>}
+            <div className={styles.container}>
+           
+                <div className={styles.allQuestions}>
+                    {questionsDiv}
                 </div>
-            </div>)
+                
+                <div className={styles.currentQuestion}>
+                {this.state.question}
+                <button className="btn btn-info" onClick={this.onFinalSubmitHandler}>Final Submit</button>
+                </div>
+               
+            </div>
+            {/* ------------------MODAL------------ */}
+            <div className={styles.myModal + " myModal"}>
+                <p className="myModal">Are You Sure!</p>
+                <button className="btn btn-info" onClick={this.closeModal}>No</button>
+                <Link to="/events"><button className="btn btn-info">Yes</button></Link>
+            </div>
+            </>
             
 
         )

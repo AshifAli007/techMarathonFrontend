@@ -13,6 +13,7 @@ import '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/react-fontawesome';
 import 'font-awesome/css/font-awesome.min.css';
+import 'antd/dist/antd.css';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 
@@ -20,7 +21,13 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   auth: authReducer
 });
-axios.defaults.baseURL = 'http://localhost:8000/v1/';
+// axios.defaults.baseURL = 'http://localhost:8000/v1/';
+console.log(process.env.NODE_ENV, 'node env');
+if(process.env.NODE_ENV === 'production'){
+  axios.defaults.baseURL = process.env.cloudServer;
+}else{
+  axios.defaults.baseURL = process.env.localServer;
+}
 const store = createStore(rootReducer,  composeEnhancers(
   applyMiddleware(thunk)
 ));

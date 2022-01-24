@@ -2,6 +2,9 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 import camelcase from 'camelcase';
 import userResponses from '../../assets/userResponse';
+import { Redirect } from 'react-router-dom';
+import history from './history';
+import {message} from 'antd';
 
 export const authStart = () =>{
     return{
@@ -10,6 +13,7 @@ export const authStart = () =>{
 }
 
 export const authSuccess = (token, userId) =>{
+    
     return{
         type: actionTypes.AUTH_SUCCESS,
         idToken: token,
@@ -42,6 +46,7 @@ export const checkAuthTimeout = (expirationTime) => {
 }
 
 export const auth = (email, password, isSignUp) =>{
+    
     const getUserResponses = async (token) => {
         return new Promise((resolve, reject) =>{
             axios.get('/eventService/getEvents',{
@@ -99,9 +104,11 @@ export const auth = (email, password, isSignUp) =>{
                 localStorage.setItem('userResponses', JSON.stringify(userResponse));
                 dispatch(authSuccess(response.data.data.accessToken, response.data.data.userId));
                 dispatch(checkAuthTimeout(response.data.data.expireIn));
+                history.push('/events');
             })
             .catch(err=>{
                 console.log(err);
+                message.error('username or email not found');
                 dispatch(authFail(err));
             })
         

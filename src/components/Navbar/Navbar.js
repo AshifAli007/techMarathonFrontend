@@ -1,4 +1,4 @@
-import React , {useEffect, Component} from 'react'
+import React , {Component} from 'react'
 import './Navbar.css';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
@@ -37,8 +37,8 @@ class Navbar extends Component{
   }
     componentDidMount(){  
       this.animation();
-      $(window).on('resize', function(){
-        setTimeout(function(){ this.animation(); }, 500);
+      $(window).on('resize',()=>{
+        setTimeout(()=>{ this.animation(); }, 500);
       });
     }
     
@@ -117,8 +117,8 @@ class Navbar extends Component{
         
           <button 
             className="navbar-toggler"
-            onClick={ function(){
-              setTimeout(function(){ this.animation(); });
+            onClick={()=>{
+              setTimeout(()=>{ this.animation(); });
             }}
             type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i className="fa fa-bars text-white"></i>
@@ -135,6 +135,8 @@ class Navbar extends Component{
 }
 
 const mapStateToProps = (state) =>{
+  // console.log('duck you');
+  // console.log(state1.auth.token);
   return {
       isAuthenticated: state.auth.token !== null
   }

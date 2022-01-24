@@ -10,7 +10,7 @@ class AddEvent extends React.Component {
         eventDetails:{
             name: '',
             description:'',
-            endTime:'2021-08-30T15:30',
+            endTime:'2022-02-03T10:30',
             
         },
         isSubmitted: false,

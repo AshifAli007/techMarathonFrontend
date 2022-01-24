@@ -41,9 +41,9 @@ body {
   float: left;
   position: relative;
   left: 30px;
-  top: -30px;
-  height: 320px;
-  width: 530px;
+  top: -70px;
+  height: 400px;
+  width: 400px;
   -webkit-box-shadow: 10px 10px 60px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 10px 10px 60px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 10px 10px 60px 0px rgba(0, 0, 0, 0.75);

@@ -24,10 +24,11 @@ const rootReducer = combineReducers({
 // axios.defaults.baseURL = 'http://localhost:8000/v1/';
 console.log(process.env.NODE_ENV, 'node env');
 if(process.env.NODE_ENV === 'production'){
-  axios.defaults.baseURL = process.env.cloudServer;
+  axios.defaults.baseURL = "https://techmarathon2022.azurewebsites.net/v1/";
 }else{
-  axios.defaults.baseURL = process.env.localServer;
+  axios.defaults.baseURL = "http://localhost:8000/v1/";
 }
+console.log(process.env.REACT_APP_BASE_URL, process.env.REACT_APP_CLOUD_SERVER, process.env)
 const store = createStore(rootReducer,  composeEnhancers(
   applyMiddleware(thunk)
 ));

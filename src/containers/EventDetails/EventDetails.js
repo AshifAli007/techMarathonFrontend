@@ -10,7 +10,6 @@ import {Button, Tag} from 'antd';
 import eventImage from '../../helpers/eventsImages';
 
 
-const userId = JSON.parse(localStorage.getItem('userId'))['_id'];
 
 class EventDetails extends Component {
     
@@ -25,7 +24,7 @@ class EventDetails extends Component {
         hasStarted: false,
         hasEnded: false,
     }
-
+    userId = JSON.parse(localStorage.getItem('userId'))['_id'];
     componentDidMount(){
         let event = {};
         axios.get('/eventService/getEvent/'+this.props.match.params.id,{
@@ -35,7 +34,7 @@ class EventDetails extends Component {
         })
             .then(res=>{
                 event = res.data.data;
-                this.getEndTime(userId, event.eventCode);
+                this.getEndTime(this.userId, event.eventCode);
                 this.setState({event: event});
                 axios.get('/quizService/getRequests',{
                     headers: {
@@ -71,9 +70,12 @@ class EventDetails extends Component {
         
     }
 
-    deleteEventHandler(props){ 
-        axios.delete('/eventService/deleteEvent/'+this.state.event._id)
-            .then(data=>{
+    deleteEventHandler(props){
+        axios.delete('/eventService/deleteEvent/'+this.state.event._id, {
+                headers: {
+                    'Authorization': `Bearer ${this.props.token}`,
+                }
+            }).then(data=>{
                 this.setState({isEventDeleted: !this.state.isEventDeleted});
             });
         
@@ -106,7 +108,7 @@ class EventDetails extends Component {
         const currentTime = d.getTime();
         const body={
             eventCode: this.state.event.eventCode,
-            userId: userId,
+            userId: this.userId,
             startTime: currentTime
         }
         await axios.post(`/quizService/addStartTime/`,body,
@@ -148,9 +150,6 @@ class EventDetails extends Component {
             "requestDetails" : {
                     "eventCode": eventCode,
                     "user": JSON.parse(localStorage.getItem("userId")),
-                    "email":'1@2.com',
-                    "phone":'0123456789',
-                    "college":'DDUC',
             }
         }
         axios.post('/quizService/addRequests', data, header)
@@ -162,7 +161,7 @@ class EventDetails extends Component {
     }
     render() {
         let heading = (<div></div>);
-        
+        const privileges = JSON.parse(localStorage.getItem('userId'))['privileges'];
         if(this.state.event){
             const eventName = this.state.event.name;
             let words = eventName.split(' ');
@@ -207,11 +206,14 @@ class EventDetails extends Component {
                        bottom: '3%',
                        right:'3%'
                    }}>
-                   <Button 
-                        onClick={()=>this.deleteEventHandler(this.props)} 
-                        danger
-                    >Delete
-                    </Button>
+                    {privileges=== 'admin' && 
+                        <Button 
+                            onClick={()=>this.deleteEventHandler(this.props)}
+                            danger
+                        >Delete
+                        </Button>
+                    }
+
                     {this.state.isLive &&
                      this.state.hasSubmitted &&
                         <p className="btn btn-info">We Have Recieved Your Submission</p>

@@ -23,18 +23,32 @@ class Main extends Component {
             </Switch>
         )
         if(this.props.isAuthenticated){
-            routes = (
-                <Switch>
-                    <Route path="/events" exact component={Events}/>
-                    <Route path="/event/:id" component={EventDetails}/>
-                    <Route path="/eventExam/:id" component={EventExam}/>
-                    <Route path="/addEvent" component={AddEvent}/>
-                    <Route path="/logout" component={Logout}/>
-                    <Route path="/responses" component={Responses}/>
-                    <Route path="/requests" component={Requests}/>
-                    {/* <Redirect to="/events"/> */}
-                </Switch>
-            )
+            const privileges = JSON.parse(localStorage.getItem('userId'))['privileges'];
+            if(privileges === 'user'){
+                routes = (
+                    <Switch>
+                        <Route path="/events" exact component={Events}/>
+                        <Route path="/event/:id" component={EventDetails}/>
+                        <Route path="/eventExam/:id" component={EventExam}/>
+                        <Route path="/logout" component={Logout}/>
+                        {/* <Redirect to="/events"/> */}
+                    </Switch>
+                )
+            }else if(privileges === 'admin'){
+                routes = (
+                    <Switch>
+                        <Route path="/events" exact component={Events}/>
+                        <Route path="/event/:id" component={EventDetails}/>
+                        <Route path="/eventExam/:id" component={EventExam}/>
+                        <Route path="/addEvent" component={AddEvent}/>
+                        <Route path="/logout" component={Logout}/>
+                        <Route path="/responses" component={Responses}/>
+                        <Route path="/requests" component={Requests}/>
+                        {/* <Redirect to="/events"/> */}
+                    </Switch>
+                )
+            }
+            
         }
         return (
             <div>

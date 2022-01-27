@@ -1,15 +1,21 @@
-import React, {Componenet} from 'react';
+import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Loader from '../../components/Loader/Loader';
 import camelcase from 'camelcase';
+import { Table, Switch, message } from 'antd';
 
 class Requests extends React.Component {
     state ={
         events: [],
-        requests: [],
+        responses: [],
         loading: true,
-        currentEventRequests:[]
+        currentEventResponse:[]
+    }
+    config = {
+        headers: {
+            'Authorization': `Bearer ${this.props.token}`,
+        }
     }
     componentDidMount(){
         axios.get('/eventService/getEvents',{
@@ -24,41 +30,76 @@ class Requests extends React.Component {
 
                 });
 
-        axios.get('/quizService/getRequests',{
-            headers: {
-                'Authorization': `Bearer ${this.props.token}`,
-            }
-        }).then(res=>{
-            const requests = res.data.data;
-            console.log(requests);
-            this.setState({requests: requests, loading: false});
+        axios.get('/quizService/getRequests', this.config).then(res=>{
+            const responses = res.data.data;
+            console.log(responses);
+            this.setState({responses: responses, loading: false, currentEventResponse: responses});
         })
+    }
+    addToFinals = async(event, resId) => {
+        const body = {
+            id:resId,
+            finals: event
+        }
+        axios.put('/quizService/updateResponse', body, this.config).then(()=>{
+            message.success('Response Updated');
+        });
     }
     onEventChangeHandler = (e) =>{
         console.log(e.target.value);
         const eventCode = camelcase(e.target.value);
-        const requests = this.state.requests.filter(request=> request.eventCode === eventCode);
-        // console.log(responses);
+        const responses = this.state.responses.filter(response=> response.eventCode === eventCode);
 
-        this.setState({currentEventRequests: requests});
+        this.setState({currentEventResponse: responses});
     }
+    
     render() {
-
+        const columns = [
+            {
+              title: 'Name',
+              dataIndex: 'user',
+              key: 'user',
+              render:(text, record)=>{
+                  return record.user.name;
+                  
+              }
+            },
+            {
+              title: 'Email',
+              dataIndex: 'email',
+              key: 'email',
+            },
+            {
+              title: 'College',
+              dataIndex: 'college',
+              key: 'college',
+            },
+            {
+                title: 'Event',
+                dataIndex: 'eventCode',
+                key: 'eventCode',
+              },
+              {
+                title: 'Phone',
+                dataIndex: 'phone',
+                key: 'phone',
+              }
+        ];
         let options = null;
         options = this.state.events.map(event=>{
             return(
                 <option value={event.name}>{event.name}</option>
             )
         });
-        const requests = this.state.currentEventRequests.map(request=>{
+        const responses = this.state.currentEventResponse.map(response=>{
             return(
                 <div>
-                    <p>{request.user.username}</p>
-                    <p>{request.email}</p>
-                    <p>{request.college}</p>
-                    <p>{request.phone}</p>
-                    {/* <input type="checkbox" id={response.user._id} name="Allowed" value="Bike"/> */}
-                    {/* <label for="vehicle1">Allowed</label> */}
+                    <p>{response.user.username}</p>
+                    <p>{response.email}</p>
+                    <p>{response.college}</p>
+                    <p>{response.score}</p>
+                    <input type="checkbox" id={response.user._id} name="final" value="Bike"/>
+                    <label for="vehicle1">Finals</label>
                     <hr></hr>
                 </div>
             )
@@ -72,7 +113,11 @@ class Requests extends React.Component {
                     <option value='Select Event'>Select Event</option>
                     {options}
                 </select>
-                {requests}
+                <Table 
+                    columns={columns}
+                    dataSource={this.state.currentEventResponse} 
+                    pagination={false}
+                />
             </div>
         )
     }

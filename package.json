@@ -16,6 +16,7 @@
     "classnames": "^2.3.1",
     "craco-plugin-scoped-css": "^1.1.1",
     "decamelize": "^5.0.0",
+    "dotenv": "^14.2.0",
     "firebase": "^9.6.4",
     "font-awesome": "^4.7.0",
     "history": "^5.2.0",

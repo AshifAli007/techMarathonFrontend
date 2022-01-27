@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9417e692.chunk.css",
+    "main.js": "/static/js/main.c6f9295e.chunk.js",
+    "main.js.map": "/static/js/main.c6f9295e.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.c8f6fdcc.js",
+    "runtime-main.js.map": "/static/js/runtime-main.c8f6fdcc.js.map",
+    "static/css/2.e8e21b93.chunk.css": "/static/css/2.e8e21b93.chunk.css",
+    "static/js/2.d2967391.chunk.js": "/static/js/2.d2967391.chunk.js",
+    "static/js/2.d2967391.chunk.js.map": "/static/js/2.d2967391.chunk.js.map",
+    "static/js/3.10c76f93.chunk.js": "/static/js/3.10c76f93.chunk.js",
+    "static/js/3.10c76f93.chunk.js.map": "/static/js/3.10c76f93.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.e8e21b93.chunk.css.map": "/static/css/2.e8e21b93.chunk.css.map",
+    "static/css/main.9417e692.chunk.css.map": "/static/css/main.9417e692.chunk.css.map",
+    "static/js/2.d2967391.chunk.js.LICENSE.txt": "/static/js/2.d2967391.chunk.js.LICENSE.txt",
+    "static/media/algowls.741b22f3.png": "/static/media/algowls.741b22f3.png",
+    "static/media/battleofbytes.a642bb2e.jpg": "/static/media/battleofbytes.a642bb2e.jpg",
+    "static/media/bumblejumble.8a917265.png": "/static/media/bumblejumble.8a917265.png",
+    "static/media/codebenders.01c860d3.png": "/static/media/codebenders.01c860d3.png",
+    "static/media/font-awesome.min.css": "/static/media/fontawesome-webfont.f691f37e.woff",
+    "static/media/socialhunt.a54d7561.png": "/static/media/socialhunt.a54d7561.png",
+    "static/media/techwars.3c11ed1f.png": "/static/media/techwars.3c11ed1f.png",
+    "static/media/tvfandom.e016fa9d.png": "/static/media/tvfandom.e016fa9d.png",
+    "static/media/webgators.5727da51.png": "/static/media/webgators.5727da51.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c8f6fdcc.js",
+    "static/css/2.e8e21b93.chunk.css",
+    "static/js/2.d2967391.chunk.js",
+    "static/css/main.9417e692.chunk.css",
+    "static/js/main.c6f9295e.chunk.js"
+  ]
+}

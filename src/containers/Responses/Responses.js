@@ -1,8 +1,9 @@
-import React, {Componenet} from 'react';
+import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Loader from '../../components/Loader/Loader';
 import camelcase from 'camelcase';
+import { Table, Switch, message } from 'antd';
 
 class Responses extends React.Component {
     state ={
@@ -10,6 +11,11 @@ class Responses extends React.Component {
         responses: [],
         loading: true,
         currentEventResponse:[]
+    }
+    config = {
+        headers: {
+            'Authorization': `Bearer ${this.props.token}`,
+        }
     }
     componentDidMount(){
         axios.get('/eventService/getEvents',{
@@ -24,26 +30,87 @@ class Responses extends React.Component {
 
                 });
 
-        axios.get('/quizService/getResponses',{
-            headers: {
-                'Authorization': `Bearer ${this.props.token}`,
-            }
-        }).then(res=>{
+        axios.get('/quizService/getResponses', this.config).then(res=>{
             const responses = res.data.data;
             console.log(responses);
-            this.setState({responses: responses, loading: false});
+            this.setState({responses: responses, loading: false, currentEventResponse: responses});
         })
+    }
+    addToFinals = async(event, resId) => {
+        const body = {
+            id:resId,
+            finals: event
+        }
+        axios.put('/quizService/updateResponse', body, this.config).then(()=>{
+            message.success('Response Updated');
+        });
     }
     onEventChangeHandler = (e) =>{
         console.log(e.target.value);
         const eventCode = camelcase(e.target.value);
         const responses = this.state.responses.filter(response=> response.eventCode === eventCode);
-        // console.log(responses);
 
         this.setState({currentEventResponse: responses});
     }
+    
     render() {
-
+        const columns = [
+            {
+              title: 'Name',
+              dataIndex: 'user',
+              key: 'user',
+              render:(text, record)=>{
+                  return record.user.name;
+                  
+              }
+            },
+            {
+                title: 'Course',
+                dataIndex: 'user',
+                key: 'user',
+                render:(text, record)=>{
+                    return record.user.course;
+                    
+                }
+            },
+            {
+                title: 'Phone',
+                dataIndex: 'user',
+                key: 'user',
+                render:(text, record)=>{
+                    return record.user.phone;
+                    
+                }
+            },
+            {
+              title: 'Email',
+              dataIndex: 'email',
+              key: 'email',
+            },
+            {
+              title: 'College',
+              dataIndex: 'college',
+              key: 'college',
+            },
+            {
+                title: 'Event',
+                dataIndex: 'eventCode',
+                key: 'eventCode',
+              },
+              {
+                title: 'Score',
+                dataIndex: 'score',
+                key: 'score',
+              },
+              {
+                title: 'Finals',
+                dataIndex: 'finals',
+                key: 'finals',
+                render: (text, record)=>{
+                    return <Switch defaultChecked={record.finals} onChange={(e)=>this.addToFinals(e, record._id)} />
+                }
+              },
+        ];
         let options = null;
         options = this.state.events.map(event=>{
             return(
@@ -72,7 +139,11 @@ class Responses extends React.Component {
                     <option value='Select Event'>Select Event</option>
                     {options}
                 </select>
-                {responses}
+                <Table 
+                    columns={columns}
+                    dataSource={this.state.currentEventResponse} 
+                    pagination={false}
+                />
             </div>
         )
     }

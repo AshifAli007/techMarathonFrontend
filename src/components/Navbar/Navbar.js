@@ -43,6 +43,7 @@ class Navbar extends Component{
     }
     
   render(){
+      const user = JSON.parse(localStorage.getItem('userId'));
       let navItem = this.props.isAuthenticated ?
       
         <ul className="navbar-nav ml-auto">
@@ -57,7 +58,8 @@ class Navbar extends Component{
           <i class="fa fa-home"></i>Home
           </NavLink>
         </li>
-
+        {user && (user['privileges']==='admin') &&
+        <>
         <li className="nav-item">
           <NavLink className="nav-link" to="/addEvent" exact>
           <i class="fa fa-calendar"></i>Add Event
@@ -76,6 +78,9 @@ class Navbar extends Component{
           <i class="fa fa-users"></i>Requests
           </NavLink>
         </li>
+
+        </>
+        }
         <li className="nav-item">
           <NavLink className="nav-link" to="/logout" exact>
             <i 
@@ -83,6 +88,7 @@ class Navbar extends Component{
             </i>Logout
           </NavLink>
         </li>
+        
     </ul>
       :
       
@@ -135,8 +141,6 @@ class Navbar extends Component{
 }
 
 const mapStateToProps = (state) =>{
-  // console.log('duck you');
-  // console.log(state1.auth.token);
   return {
       isAuthenticated: state.auth.token !== null
   }

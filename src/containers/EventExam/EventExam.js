@@ -9,8 +9,6 @@ import $ from 'jquery';
 import Countdown from 'react-countdown';
 import { message } from 'antd';
 
-const userId = JSON.parse(localStorage.getItem('userId'))['_id'];
-
 class EventExam extends Component {
     constructor(props)
     {
@@ -26,6 +24,7 @@ class EventExam extends Component {
             endTime:"",
         }
     }
+    userId = JSON.parse(localStorage.getItem('userId'))['_id'];
     componentWillUnmount() {
         clearInterval(this.timer);
     }
@@ -37,7 +36,7 @@ class EventExam extends Component {
         })
             .then(res=>{
                 const event = res.data.data;
-                this.getEndTime(userId, event.eventCode).then((endTime)=>{
+                this.getEndTime(this.userId, event.eventCode).then((endTime)=>{
                     if(Date.now() > endTime){
                         console.log('time over');
                     }else{
@@ -136,11 +135,7 @@ class EventExam extends Component {
             "responseDetails" : {
                     "eventCode": eventCode,
                     "user": JSON.parse(localStorage.getItem("userId")),
-                    "email":'1@2.com',
-                    "phone":'0123456789',
-                    "college":'DDUC',
                     "response": JSON.parse(localStorage.getItem("userResponses"))[eventCode].responses,
-                    "timeLeft":"24:36",
             }
         }
         await axios.post('/quizService/addResponse', data, header)

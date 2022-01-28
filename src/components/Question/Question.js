@@ -39,7 +39,7 @@ class Question extends Component {
         )
     });
     return(
-        
+        <>
     <div className={styles.container}>
         
         <div className={styles.ques}>{this.props.details.text}</div>
@@ -71,6 +71,19 @@ class Question extends Component {
         </div>
         
     </div>
+    <div style={{
+        width:"80%",
+        height:"auto",
+        textAlign:"center",
+        padding: "1%"
+    }}>
+        {this.props.details.image &&
+                    <img alt="" style={{maxWidth:"100%", maxHeight:"100%"}}  
+                    src={this.props.details.image}></img>
+        }
+
+    </div>
+    </>
     )  
     }
 }

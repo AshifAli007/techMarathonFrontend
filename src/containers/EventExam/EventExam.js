@@ -178,7 +178,8 @@ class EventExam extends Component {
                 
                 <div className={styles.currentQuestion}>
                 {this.state.question}
-                <button className="btn btn-info" onClick={this.onFinalSubmitHandler}>Final Submit</button>
+                
+                <button className="btn btn-info" style={{width: "100%",}} onClick={this.onFinalSubmitHandler}>Final Submit</button>
                 </div>
                
             </div>

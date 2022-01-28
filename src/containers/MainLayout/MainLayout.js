@@ -10,8 +10,8 @@ import Logout from '../Auth/logout/logout';
 import Navbar from '../../components/Navbar/Navbar';
 import Responses from '../Responses/Responses';
 import Requests from '../Requests/Requests';
+import Results from '../Results/Results';
 
-import history from '../../store/actions/history';
 
 class Main extends Component {
     render() {
@@ -44,6 +44,7 @@ class Main extends Component {
                         <Route path="/logout" component={Logout}/>
                         <Route path="/responses" component={Responses}/>
                         <Route path="/requests" component={Requests}/>
+                        <Route path="/results" component={Results}/>
                         {/* <Redirect to="/events"/> */}
                     </Switch>
                 )

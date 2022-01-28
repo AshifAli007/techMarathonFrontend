@@ -83,14 +83,22 @@ class Responses extends React.Component {
                 }
             },
             {
-              title: 'Email',
-              dataIndex: 'email',
-              key: 'email',
+                title: 'Email',
+                dataIndex: 'user',
+                key: 'user',
+                render:(text, record)=>{
+                    return record.user.username;
+                    
+                }
             },
             {
-              title: 'College',
-              dataIndex: 'college',
-              key: 'college',
+                title: 'College',
+                dataIndex: 'user',
+                key: 'user',
+                render:(text, record)=>{
+                    return record.user.college;
+                    
+                }
             },
             {
                 title: 'Event',

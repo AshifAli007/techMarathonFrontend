@@ -78,7 +78,11 @@ class Navbar extends Component{
           <i class="fa fa-users"></i>Requests
           </NavLink>
         </li>
-
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/results" exact>
+          <i class="fa fa-users"></i>Results
+          </NavLink>
+        </li>
         </>
         }
         <li className="nav-item">

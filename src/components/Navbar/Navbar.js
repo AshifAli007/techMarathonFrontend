@@ -6,41 +6,43 @@ import {connect} from 'react-redux';
 
 class Navbar extends Component{
         
-  animation = ()=>{
-    var tabsNewAnim = $('#navbarSupportedContent');
-    var activeItemNewAnim = tabsNewAnim.find('.active');
-    var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
-    var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
-    var itemPosNewAnimTop = activeItemNewAnim.position();
-    var itemPosNewAnimLeft = activeItemNewAnim.position();
-    $(".hori-selector").css({
-      "top":itemPosNewAnimTop.top + "px", 
-      "left":itemPosNewAnimLeft.left + "px",
-      "height": activeWidthNewAnimHeight + "px",
-      "width": activeWidthNewAnimWidth + "px"
-    });
-    $("#navbarSupportedContent").on("click","li",function(e){
-      console.log(e);
-      $('#navbarSupportedContent ul li').removeClass("active");
-      $(this).addClass('active');
-      var activeWidthNewAnimHeight = $(this).innerHeight();
-      var activeWidthNewAnimWidth = $(this).innerWidth();
-      var itemPosNewAnimTop = $(this).position();
-      var itemPosNewAnimLeft = $(this).position();
-      $(".hori-selector").css({
-        "top":itemPosNewAnimTop.top + "px", 
-        "left":itemPosNewAnimLeft.left + "px",
-        "height": activeWidthNewAnimHeight + "px",
-        "width": activeWidthNewAnimWidth + "px"
-      });
-    });
-  }
-    componentDidMount(){  
-      this.animation();
-      $(window).on('resize',()=>{
-        setTimeout(()=>{ this.animation(); }, 500);
-      });
-    }
+  // animation = ()=>{
+  //   var tabsNewAnim = $('#navbarSupportedContent');
+  //   var activeItemNewAnim = tabsNewAnim.find('.active');
+  //   var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
+  //   var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
+  //   var itemPosNewAnimTop = activeItemNewAnim.position();
+  //   var itemPosNewAnimLeft = activeItemNewAnim.position();
+  //   $(".hori-selector").css({
+  //     "top":itemPosNewAnimTop.top + "px", 
+  //     "left":itemPosNewAnimLeft.left + "px",
+  //     "height": activeWidthNewAnimHeight + "px",
+  //     "width": activeWidthNewAnimWidth + "px"
+  //   });
+  //   $("#navbarSupportedContent").on("click","li",function(e){
+  //     console.log(e);
+  //     $('#navbarSupportedContent ul li').removeClass("active");
+  //     $(this).addClass('active');
+  //     var activeWidthNewAnimHeight = $(this).innerHeight();
+  //     var activeWidthNewAnimWidth = $(this).innerWidth();
+  //     var itemPosNewAnimTop = $(this).position();
+  //     var itemPosNewAnimLeft = $(this).position();
+  //     $(".hori-selector").css({
+  //       "top":itemPosNewAnimTop.top + "px", 
+  //       "left":itemPosNewAnimLeft.left + "px",
+  //       "height": activeWidthNewAnimHeight + "px",
+  //       "width": activeWidthNewAnimWidth + "px"
+  //     });
+  //   });
+  // }
+  //   componentDidMount(){  
+  //     this.animation();
+  //     $(window).on('resize',()=>{
+  //       setTimeout(()=>{ this.animation(); }, 500);
+  //     });
+
+      
+  //   }
     
   render(){
       const user = JSON.parse(localStorage.getItem('userId'));
@@ -48,45 +50,42 @@ class Navbar extends Component{
       
         <ul className="navbar-nav ml-auto">
                 
-        <div className="hori-selector">
-          <div className="left"></div>
-          <div className="right"></div>
-        </div>
+       
         
         <li className="nav-item active">
-          <NavLink className="nav-link" to="/events" exact>
+          <NavLink className="nav-link" id="home" to="/events" exact>
           <i class="fa fa-home"></i>Home
           </NavLink>
         </li>
         {user && (user['privileges']==='admin') &&
         <>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/addEvent" exact>
+          <NavLink className="nav-link" id='add' to="/addEvent" exact>
           <i class="fa fa-calendar"></i>Add Event
           </NavLink> 
         </li>
 
         <li className="nav-item">
-          <NavLink className="nav-link" to="/responses" exact>
+          <NavLink className="nav-link" id='response' to="/responses" exact>
             <i 
             className="fa fa-reply-all">
             </i>Responses
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/requests" exact>
+          <NavLink className="nav-link" id='request' to="/requests" exact>
           <i class="fa fa-users"></i>Requests
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/results" exact>
+          <NavLink className="nav-link" id='result' to="/results" exact>
           <i class="fa fa-users"></i>Results
           </NavLink>
         </li>
         </>
         }
         <li className="nav-item">
-          <NavLink className="nav-link" to="/logout" exact>
+          <NavLink className="nav-link" id='login' to="/logout" exact>
             <i 
             className="fa fa-sign-out">
             </i>Logout
@@ -104,12 +103,12 @@ class Navbar extends Component{
         </div>
         
         <li className="nav-item active">
-          <NavLink className="nav-link" to="/events" exact>
+          <NavLink className="nav-link" id='home' to="/events" exact>
           <i class="fa fa-home"></i>Home
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/authentication" exact>
+          <NavLink className="nav-link" id='login' to="/authentication" exact>
             <i 
             className="fa fa-sign-in">
             </i>Login

@@ -1,0 +1,80 @@
+@font-face {
+    font-family: 'cartoon';
+    src: url('../../assets/fonts/cartoon.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'frontman';
+    src: url('../../assets/fonts/frontman.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'hollow';
+    src: url('../../assets/fonts/hollow.ttf') format('truetype');
+  }
+
+.checkButton{
+      font-family: frontman;
+      width: 30%;
+      border-radius: 20px 100px;
+      border: none;
+      height: 30px;
+      cursor: pointer;
+      font-size:13px;
+      color: white;
+      background-image: linear-gradient(316deg ,#00A1AB, #020112);
+      box-shadow: 0px 0px 20px rgb(97, 255, 242);
+  
+  }
+  .answer{
+    font-family: hollow;
+    width: 50%;
+    padding:0;
+    text-align: center;
+    border-radius: 20px 100px;
+    border: none;
+    height: 50px;
+    font-size:25px;
+    color: black;
+    transition: all 0.5s ease-in-out;
+  }
+  .answer:focus{
+    outline: none;
+    box-shadow: 0px 0px 20px #00eeff;
+    text-shadow: 1px 1px 5px green;
+    width: 100%;
+  }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(113, 133, 126);
+    font-family: hollow;
+    font-size: 25px;
+    opacity: 1; /* Firefox */
+  }
+
+  .hint{
+      font-size: 30px;
+      color: #00A1AB;
+      text-shadow: 1px 1px 5px rgb(255, 125, 3);
+      margin: 0;
+      font-family: hollow;
+      line-height:30px;
+  }
+
+  .leaderboard{
+      font-family: frontman;
+      font-size: 14px;
+      border:none;
+      padding: 10px 4% 5px 2%;
+      position: absolute;
+      right: 0;
+      top: 5%;
+      border-radius: 20px 0 0 20px;
+      box-shadow: 0px 5px 5px #3ad9ff;
+      background-image: linear-gradient(16deg,#00A1AB, #908cce);
+      cursor: pointer;
+
+  }
+
+.title{
+    font-family: cartoon;
+    color: #0ea1c2;
+    font-size: 65px;
+}

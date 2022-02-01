@@ -41,9 +41,15 @@ class Question extends Component {
     return(
         <>
     <div className={styles.container}>
+    
         
+            
         <div className={styles.ques}>{this.props.details.text}</div>
         
+        {this.props.details.code &&
+                <pre>
+                <div className={styles.ques}>{this.props.details.code}</div>
+                </pre>}
         <ul style={{padding:'0', marginTop:'3%'}}>
             {options}
         </ul>

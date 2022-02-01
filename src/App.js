@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
 import {React, Component} from 'react';
 import Loader from './components/Loader/Loader';
+import './App.css';
 
 class App extends Component {
   componentDidMount() {

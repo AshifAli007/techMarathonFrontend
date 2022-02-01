@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-
+@font-face {
+	font-family: 'frontman';
+	src: url('../../assets/fonts/frontman.ttf') format('truetype');
+  }
 body{
 	font-family: 'Roboto', sans-serif;
 }
@@ -11,7 +14,7 @@ i {
 	margin-right: 10px;
 }
 .navbar{
-	margin-bottom: 5%;
+	/* margin-bottom: 5%; */
 }
 /*----------multi-level-accordian-menu------------*/
 .navbar-logo{
@@ -32,6 +35,7 @@ i {
 	margin: 0px;
 }
 #navbarSupportedContent ul li a i{
+	font-size: 18px;
 	margin-right: 10px;
 }
 #navbarSupportedContent li {
@@ -39,14 +43,21 @@ i {
 	float: left;
 }
 #navbarSupportedContent ul li a{
-	color: rgba(255,255,255,0.5);
+	font-family: 'frontman';
+	color: rgba(255,255,255,1);
     text-decoration: none;
-    font-size: 15px;
+    font-size: 10px;
     display: block;
     padding: 20px 20px;
     transition-duration:0.6s;
 	transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     position: relative;
+}
+#navbarSupportedContent ul li a:hover{
+	text-shadow: 1px 1px 20px white;
+}
+#logo:hover{
+	color: white;
 }
 #navbarSupportedContent>ul>li.active>a{
 	color: #42c7df;
@@ -114,6 +125,9 @@ i {
     left: -25px;
 }
 
+.navbar-toggler:focus{
+	box-shadow: none;
+}
 
 @media(min-width: 992px){
 	.navbar-expand-custom {
@@ -169,4 +183,8 @@ i {
 		bottom: -25px;
 		left: -25px;
 	}
+}
+
+.logo{
+	font-family: 'frontman';
 }

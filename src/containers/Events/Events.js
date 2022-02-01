@@ -48,8 +48,8 @@ class Events extends Component {
             return <Event 
                     key={event._id} 
                     // id={event._id}
-                    // event = {event.name} 
-                    // content = {event.description} 
+                    // event = {event.name}
+                    // content = {event.description}
                     timeToLive = {this.timeToLive(event.endTime)}
                     isAuthenticated = {this.props.isAuthenticated}
                     event={event}

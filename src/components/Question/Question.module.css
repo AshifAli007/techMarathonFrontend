@@ -16,6 +16,9 @@
 	color: #aaaaaa;
 	font-size: 20px;
 }
+.ques{
+	user-select: none;
+}
 /* 
 .container ul {
 	list-style: none;

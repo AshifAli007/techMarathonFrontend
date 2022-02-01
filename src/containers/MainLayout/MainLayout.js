@@ -11,6 +11,8 @@ import Navbar from '../../components/Navbar/Navbar';
 import Responses from '../Responses/Responses';
 import Requests from '../Requests/Requests';
 import Results from '../Results/Results';
+import '../../App.css';
+import Bamboozled from '../Bamboozled/Bamboozled';
 
 
 class Main extends Component {
@@ -31,6 +33,7 @@ class Main extends Component {
                         <Route path="/event/:id" component={EventDetails}/>
                         <Route path="/eventExam/:id" component={EventExam}/>
                         <Route path="/logout" component={Logout}/>
+                        <Route path="/bamboozled" component={Bamboozled}/>
                         {/* <Redirect to="/events"/> */}
                     </Switch>
                 )
@@ -45,6 +48,7 @@ class Main extends Component {
                         <Route path="/responses" component={Responses}/>
                         <Route path="/requests" component={Requests}/>
                         <Route path="/results" component={Results}/>
+                        <Route path="/bamboozled" component={Bamboozled}/>
                         {/* <Redirect to="/events"/> */}
                     </Switch>
                 )

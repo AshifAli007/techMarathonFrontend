@@ -16,6 +16,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'antd/dist/antd.css';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import './App.css';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({

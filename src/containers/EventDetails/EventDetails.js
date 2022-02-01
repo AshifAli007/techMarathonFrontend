@@ -9,8 +9,6 @@ import CountDownTimer from '../../components/CountDownTimer/CountDownTimer';
 import {Button, Tag} from 'antd';
 import eventImage from '../../helpers/eventsImages';
 
-
-
 class EventDetails extends Component {
     
     state = {
@@ -118,7 +116,22 @@ class EventDetails extends Component {
             }
         }
         );
-        this.props.history.push(`/eventExam/${this.state.event._id}`)
+        if(this.state.event.eventCode === 'bamboozled'){
+            console.log('bamboo user created request');
+            const body = {
+                user: JSON.parse(localStorage.getItem('userId')),
+            }
+            await axios.post('/bamboozled/addBamboozledUser', body, 
+            {
+                headers:{
+                    'Authorization' : `Bearer ${this.props.token}`,
+                }
+            }
+            );
+            this.props.history.push('/bamboozled');
+        }else{
+            this.props.history.push(`/eventExam/${this.state.event._id}`);
+        }
     }
     getEndTime = async(userId, eventCode) =>{
         const {data} = await axios.get(`/quizService/getEndTime/${userId}/${eventCode}`,
@@ -236,9 +249,17 @@ class EventDetails extends Component {
                      this.state.hasStarted &&
                      !this.state.hasEnded &&
                      !this.state.hasSubmitted &&
-                     <Link to={this.state.event ? "/eventExam/"+this.state.event._id : ""}>
-                        <Button primary>Continue event</Button>
-                        </Link>
+                     <>
+                        {this.state.event.eventCode === 'bamboozled' ?
+                            <Link to={this.state.event && "/bamboozled/"}>
+                                <Button primary>Continue event</Button>
+                            </Link>
+                            :
+                            <Link to={this.state.event ? "/eventExam/"+this.state.event._id : ""}>
+                                <Button primary>Continue event</Button>
+                            </Link>
+                        }
+                        </>
                     }
                     {
                         !this.state.isLive &&

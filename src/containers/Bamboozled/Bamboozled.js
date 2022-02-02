@@ -7,7 +7,6 @@ import trophy2 from '../../assets/images/trophy2.png';
 import trophy3 from '../../assets/images/trophy3.png';
 import './Bamboozled.css';
 
-// const Context = React.createContext({ name: 'Default' });
 
 const Bamboozled = () =>{
     const userId = JSON.parse(localStorage.getItem('userId'))['_id'];
@@ -129,7 +128,7 @@ const Bamboozled = () =>{
                                 })
                             }
                             
-                            <button className='checkButton' style={{width:'100%'}} onClick={()=>checkAnswer()}> Check Answer</button>
+                            <button className='checkButton' style={{width:'100%', marginTop:'2%'}} onClick={()=>checkAnswer()}> Check Answer</button>
                         </div>
                         <button className='leaderboard' onClick={()=>{
                                 getLeaderboard();
@@ -157,7 +156,7 @@ const Bamboozled = () =>{
                                         }} alt="" src={trophy3}/></>}
                                             {player.user.name}
                                             <Progress
-                                            style={{width:"90%"}}
+                                            style={{width:"87%"}}
                                             strokeColor={{
                                                 '0%': '#108ee9',
                                                 '100%': '#87d068',

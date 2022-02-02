@@ -104,6 +104,7 @@ export const auth = (email, password, isSignUp) =>{
                 localStorage.setItem('userResponses', JSON.stringify(userResponse));
                 dispatch(authSuccess(response.data.data.accessToken, response.data.data.userId));
                 dispatch(checkAuthTimeout(response.data.data.expireIn));
+                message.success(`Successfull logged in as ${response.data.data.userId.name}`)
                 history.push('/events');
             })
             .catch(err=>{

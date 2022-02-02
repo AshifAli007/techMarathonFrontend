@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Loader from '../../components/Loader/Loader';
 import camelcase from 'camelcase';
 import { Table, Switch, message } from 'antd';
+import { Select } from 'antd';
+const { Option } = Select;
 
 class Requests extends React.Component {
     state ={
@@ -46,8 +48,8 @@ class Requests extends React.Component {
         });
     }
     onEventChangeHandler = (e) =>{
-        console.log(e.target.value);
-        const eventCode = camelcase(e.target.value);
+        console.log(e);
+        const eventCode = camelcase(e);
         const responses = this.state.responses.filter(response=> response.eventCode === eventCode);
 
         this.setState({currentEventResponse: responses});
@@ -65,30 +67,51 @@ class Requests extends React.Component {
               }
             },
             {
-              title: 'Email',
-              dataIndex: 'email',
-              key: 'email',
+                title: 'Course',
+                dataIndex: 'user',
+                key: 'user',
+                render:(text, record)=>{
+                    return record.user.course;
+                    
+                }
             },
             {
-              title: 'College',
-              dataIndex: 'college',
-              key: 'college',
+                title: 'Phone',
+                dataIndex: 'user',
+                key: 'user',
+                render:(text, record)=>{
+                    return record.user.phone;
+                    
+                }
+            },
+            {
+                title: 'Email',
+                dataIndex: 'user',
+                key: 'user',
+                render:(text, record)=>{
+                    return record.user.username;
+                    
+                }
+            },
+            {
+                title: 'College',
+                dataIndex: 'user',
+                key: 'user',
+                render:(text, record)=>{
+                    return record.user.college;
+                    
+                }
             },
             {
                 title: 'Event',
                 dataIndex: 'eventCode',
                 key: 'eventCode',
-              },
-              {
-                title: 'Phone',
-                dataIndex: 'phone',
-                key: 'phone',
               }
         ];
         let options = null;
         options = this.state.events.map(event=>{
             return(
-                <option value={event.name}>{event.name}</option>
+                <Option value={event.name}>{event.name}</Option>
             )
         });
         const responses = this.state.currentEventResponse.map(response=>{
@@ -107,12 +130,20 @@ class Requests extends React.Component {
         return(
             this.state.loading ? <Loader/>:
             <div>
-                <label for="events">Event Name:</label>
+       
 
-                <select onChange={(e)=>this.onEventChangeHandler(e)} name="events" id="events">
-                    <option value='Select Event'>Select Event</option>
+                <Select 
+                    placeholder="Select a Event" 
+                    style={{
+                        width: '200px',
+                        margin:'2% auto 2% 5%'
+                    }} 
+                    onChange={(e)=>this.onEventChangeHandler(e)} 
+                    name="events">
+                    <Option value='Select Event'>Select Event</Option>
                     {options}
-                </select>
+                </Select>
+                
                 <Table 
                     columns={columns}
                     dataSource={this.state.currentEventResponse} 

@@ -3,6 +3,7 @@ import './Navbar.css';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
 import {connect} from 'react-redux';
+import { Avatar, Tooltip } from 'antd';
 
 class Navbar extends Component{
         
@@ -49,6 +50,7 @@ class Navbar extends Component{
     
   render(){
       const user = JSON.parse(localStorage.getItem('userId'));
+     
       let navItem = this.props.isAuthenticated ?
       
         <ul className="navbar-nav ml-auto">
@@ -82,7 +84,7 @@ class Navbar extends Component{
         </li>
         <li className="nav-item">
           <NavLink className="nav-link" id='result' to="/results" exact>
-          <i class="fa fa-users"></i>Results
+          <i class="fa fa-trophy"></i>Results
           </NavLink>
         </li>
         </>
@@ -93,6 +95,12 @@ class Navbar extends Component{
             className="fa fa-sign-out">
             </i>Logout
           </NavLink>
+        </li>
+        <li style={{display: 'flex', alignItems: 'center'}}>
+        <Tooltip placement="left" title={user.name}>
+          <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf', cursor:'pointer' }}> {user.name[0]}</Avatar>
+        </Tooltip>
+        
         </li>
         
     </ul>

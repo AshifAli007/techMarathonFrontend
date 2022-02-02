@@ -3,7 +3,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import Loader from '../../components/Loader/Loader';
 import camelcase from 'camelcase';
+import { Select } from 'antd';
 import { Table, Switch, message } from 'antd';
+const { Option } = Select;
 
 class Responses extends React.Component {
     state ={
@@ -46,8 +48,8 @@ class Responses extends React.Component {
         });
     }
     onEventChangeHandler = (e) =>{
-        console.log(e.target.value);
-        const eventCode = camelcase(e.target.value);
+        console.log(e);
+        const eventCode = camelcase(e);
         const responses = this.state.responses.filter(response=> response.eventCode === eventCode);
 
         this.setState({currentEventResponse: responses});
@@ -122,7 +124,7 @@ class Responses extends React.Component {
         let options = null;
         options = this.state.events.map(event=>{
             return(
-                <option value={event.name}>{event.name}</option>
+                <Option value={event.name}>{event.name}</Option>
             )
         });
         const responses = this.state.currentEventResponse.map(response=>{
@@ -141,12 +143,17 @@ class Responses extends React.Component {
         return(
             this.state.loading ? <Loader/>:
             <div>
-                <label for="events">Event Name:</label>
-
-                <select onChange={(e)=>this.onEventChangeHandler(e)} name="events" id="events">
-                    <option value='Select Event'>Select Event</option>
+                <Select 
+                    placeholder="Select a Event" 
+                    style={{
+                        width: '200px',
+                        margin:'2% auto 2% 5%'
+                    }} 
+                    onChange={(e)=>this.onEventChangeHandler(e)} 
+                    name="events">
+                    <Option value='Select Event'>Select Event</Option>
                     {options}
-                </select>
+                </Select>
                 <Table 
                     columns={columns}
                     dataSource={this.state.currentEventResponse} 

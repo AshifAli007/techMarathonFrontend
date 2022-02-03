@@ -35,6 +35,8 @@ class Responses extends React.Component {
         axios.get('/quizService/getResponses', this.config).then(res=>{
             const responses = res.data.data;
             console.log(responses);
+            
+            responses.sort((a, b)=> a.score < b.score ? 1:-1);
             this.setState({responses: responses, loading: false, currentEventResponse: responses});
         })
     }

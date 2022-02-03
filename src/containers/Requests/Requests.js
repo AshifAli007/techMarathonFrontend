@@ -27,7 +27,7 @@ class Requests extends React.Component {
         })
                 .then(res=>{
                     const events = res.data.data;
-                    console.log(events);
+                   
                     this.setState({events: events});
 
                 });

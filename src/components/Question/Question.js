@@ -13,7 +13,7 @@ class Question extends Component {
     }
     onValueChange = (val, event)=>{
         if(val){
-            console.log('null send');
+            
             this.props.onOptionUpdate(null);
         }else{
             this.props.onOptionUpdate(event.target.value);
@@ -25,7 +25,7 @@ class Question extends Component {
         let currentEvent = userResponses[this.props.event];
         let currentQuestion = currentEvent.responses[this.props.details.qid - 1];
         let userAns = currentQuestion.userAns;
-        console.log(userAns);
+        
 
         const options = this.props.details.options.map((option, index)=>{
         let checked = option.key === userAns;

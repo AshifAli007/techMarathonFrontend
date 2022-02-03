@@ -1,0 +1,18 @@
+@font-face {
+	font-family: 'frontman';
+	src: url('../../assets/fonts/frontman.ttf') format('truetype');
+  }
+  @font-face {
+	font-family: 'hollow';
+	src: url('../../assets/fonts/hollow.ttf') format('truetype');
+  }
+
+
+.footer{
+    font-size: 15px;
+    font-family: hollow;
+    position: fixed;
+    bottom: 1%;
+    right: 1%;
+    text-shadow: 0 2px 4px #0aa3ff;
+}

@@ -140,8 +140,8 @@ class Auth extends Component {
     }
 }
 const mapStateToProps = (state) =>{
-    console.log('duck you');
-    console.log(state.auth.token);
+   
+    
     return {
         isAuthenticated: state.auth.token !== null
     }

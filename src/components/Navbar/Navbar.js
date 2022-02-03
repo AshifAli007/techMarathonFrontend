@@ -21,7 +21,7 @@ class Navbar extends Component{
       "width": activeWidthNewAnimWidth + "px"
     });
     $("#navbarSupportedContent").on("click","li",function(e){
-      console.log(e);
+     
       $('#navbarSupportedContent ul li').removeClass("active");
       $(this).addClass('active');
       var activeWidthNewAnimHeight = $(this).innerHeight();
@@ -62,7 +62,7 @@ class Navbar extends Component{
           <i class="fa fa-home"></i>Home
           </NavLink>
         </li>
-        {user && (user['privileges']==='admin') &&
+        {user && (user['privileges']==='admin~') &&
         <>
         <li className="nav-item">
           <NavLink className="nav-link" id='add' to="/addEvent" exact>

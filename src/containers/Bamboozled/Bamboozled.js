@@ -62,7 +62,7 @@ const Bamboozled = () =>{
                 setLoading(false);
             });
         }catch(e){
-            console.log('unablel to get leaderboard');
+            console.log('unable to get leaderboard');
         }
 
     }   

@@ -41,7 +41,7 @@ class EventExam extends Component {
                     if(Date.now() > endTime){
                         console.log('time over');
                     }else{
-                        console.log(endTime - Date.now());
+                        
                         this.timer = setTimeout(()=>{
                             this.onFinalSubmitHandler();
                             
@@ -53,9 +53,9 @@ class EventExam extends Component {
                 currentEvent = currentEvent[event.eventCode];
 
                 let currentQuestion = event.questions.filter(question => question.qid === currentEvent.currentQuestion)[0];
-                console.log(currentQuestion);
+              
                 let currentQuestionResponse = currentEvent.responses[currentEvent.currentQuestion - 1];
-                console.log(currentQuestionResponse);
+               
                 const newQuestion = <Question nextPrevHandler ={this.onClickNextAndPrevHandler}  
                                                 details={currentQuestion} 
                                                 event={event.eventCode}
@@ -106,7 +106,7 @@ class EventExam extends Component {
         prevResponse[this.state.event.eventCode] = updatedEvent;
 
         localStorage.setItem('userResponses', JSON.stringify(prevResponse));
-        console.log(prevResponse);
+      
         this.setState({question: newQuestion, currentQuestion: question.qid});
     }
     onClickNextAndPrevHandler = (action)=>{
@@ -118,10 +118,10 @@ class EventExam extends Component {
         }else if(action == "next"){
             if(this.state.currentQuestion !== this.state.event.questions.length)
                 currentQuestion = this.state.currentQuestion + 1;
-                console.log('from next handler',currentQuestion);
+               
         }
         const question = this.state.event.questions.filter(question => question.qid === currentQuestion)
-        console.log(question);
+      
         this.onQuestionChange(question[0]);
 
     }

@@ -8,8 +8,9 @@ const CountDownTimer = ({hoursMinSecs}) => {
 
     const tick = () => {
    
-        if (dys<=0 && hrs <= 0 && mins <= 0 && secs <= 0) 
-            console.log('its live');
+        if (dys<=0 && hrs <= 0 && mins <= 0 && secs <= 0) {
+            console.log("");
+        }
         else if(hrs === 0 && mins === 0 && secs ===0){
             setTime([dys-1, 23, 59, 59]);
         }

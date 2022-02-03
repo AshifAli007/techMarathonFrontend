@@ -13,6 +13,7 @@ import Requests from '../Requests/Requests';
 import Results from '../Results/Results';
 import '../../App.css';
 import Bamboozled from '../Bamboozled/Bamboozled';
+import './MainLayout.css';
 
 
 class Main extends Component {
@@ -34,12 +35,13 @@ class Main extends Component {
                         <Route path="/event/:id" component={EventDetails}/>
                         <Route path="/eventExam/:id" component={EventExam}/>
                         <Route path="/logout" component={Logout}/>
+                        <Route path="/results" component={Results}/>
                         <Route path="/bamboozled" component={Bamboozled}/>
                         <Route path="/" exact component={Events}/>
                         
                     </Switch>
                 )
-            }else if(privileges === 'admin'){
+            }else if(privileges === 'admin~'){
                 routes = (
                     <Switch>
                         <Route path="/events" exact component={Events}/>
@@ -62,7 +64,7 @@ class Main extends Component {
                 <Navbar/>
 
                 {routes}
-
+                <div  className='footer'>Made By Mohd Ashif</div>
             </div>
                         
         );

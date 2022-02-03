@@ -101,7 +101,7 @@ class EventDetails extends Component {
         return timeToLive;
     }
     addStartTime = async() =>{
-        console.log(' i am called');
+        
         const d = new Date();
         const currentTime = d.getTime();
         const body={
@@ -117,7 +117,7 @@ class EventDetails extends Component {
         }
         );
         if(this.state.event.eventCode === 'bamboozled'){
-            console.log('bamboo user created request');
+          
             const body = {
                 user: JSON.parse(localStorage.getItem('userId')),
             }
@@ -142,9 +142,9 @@ class EventDetails extends Component {
         }
         );
         if(data.data.length){
-            console.log('i am in');
+            
             this.setState({hasStarted: true});
-            console.log(data.data, 'i am data');
+            
             const endTime = data.data[0].endTime;
             if(Date.now() > endTime){
                 this.setState({hasEnded: true});
@@ -219,7 +219,7 @@ class EventDetails extends Component {
                        bottom: '3%',
                        right:'3%'
                    }}>
-                    {privileges=== 'admin' && 
+                    {privileges=== 'admin~' && 
                         <Button 
                             onClick={()=>this.deleteEventHandler(this.props)}
                             danger

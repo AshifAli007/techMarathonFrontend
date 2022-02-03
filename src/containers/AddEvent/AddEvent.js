@@ -20,7 +20,7 @@ class AddEvent extends React.Component {
         const newEventDetails = {...this.state.eventDetails};
         newEventDetails[e.target.id] = e.target.value;
         this.setState({eventDetails: newEventDetails});
-        console.log(newEventDetails);
+      
     }
     submit = (e) =>{
         this.setState({loading: true});
@@ -36,11 +36,11 @@ class AddEvent extends React.Component {
                 'authorization' : `Bearer ${this.props.token}`,
             }
         }).then(res=>{
-            console.log(res,Date.now());
+            
             this.setState({loading: false});
             this.setState({isSubmitted: !this.state.isSubmitted});
         })
-        console.log(this.state.eventDetails);
+        
     }
     render(){
         

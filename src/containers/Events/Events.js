@@ -59,7 +59,7 @@ class Events extends Component {
 
         
         return (
-            <div className={"row justify-content-start "+ styles.row}>
+            <div className={"row justify-content-start "+ styles.row} style={{marginTop:'2%', marginLeft:'5%'}}>
                         {this.state.loading ? <Loader />: (post)}
                 </div>
         );

@@ -7,7 +7,7 @@ import CountDownTimer from '../../components/CountDownTimer/CountDownTimer';
 function Event(props){
     let id = props.event._id;
     let hoursMinSecs = props.timeToLive;
-    console.log(props.event);
+ 
     return(
             
             <div className={"col " + cx(styles.container, styles.event)}>

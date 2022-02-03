@@ -78,6 +78,13 @@ class Navbar extends Component{
           </NavLink>
         </li>
         <li className="nav-item">
+          <NavLink className="nav-link" id='response' to="/bamboozled/admin" exact>
+            <i 
+            className="fa fa-reply-all">
+            </i>Bamboozled
+          </NavLink>
+        </li>
+        <li className="nav-item">
           <NavLink className="nav-link" id='request' to="/requests" exact>
           <i class="fa fa-users"></i>Requests
           </NavLink>

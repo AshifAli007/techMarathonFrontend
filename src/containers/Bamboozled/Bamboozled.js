@@ -67,6 +67,10 @@ const Bamboozled = () =>{
 
     }   
     const checkAnswer = () =>{
+        if(!answer){
+            message.warning('Answer Empty');
+            return;
+        }
         const body = {
             userId: userId,
             answer: answer,

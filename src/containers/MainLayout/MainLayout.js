@@ -13,6 +13,7 @@ import Requests from '../Requests/Requests';
 import Results from '../Results/Results';
 import '../../App.css';
 import Bamboozled from '../Bamboozled/Bamboozled';
+import BamboozledAdmin from '../BamboozledAdmin/BamboozledAdmin'
 import './MainLayout.css';
 
 
@@ -52,7 +53,9 @@ class Main extends Component {
                         <Route path="/responses" component={Responses}/>
                         <Route path="/requests" component={Requests}/>
                         <Route path="/results" component={Results}/>
+                        <Route path="/bamboozled/admin" component={BamboozledAdmin}/>
                         <Route path="/bamboozled" component={Bamboozled}/>
+                        
                         <Route path="/" exact component={Events}/>
                     </Switch>
                 )

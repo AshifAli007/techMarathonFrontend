@@ -7,7 +7,7 @@ import styles from './EventExam.module.css';
 import Loader from '../../components/Loader/Loader';
 import $ from 'jquery';
 import Countdown from 'react-countdown';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 
 class EventExam extends Component {
     constructor(props)
@@ -22,6 +22,7 @@ class EventExam extends Component {
             optionSelected: null,
             loading: true,
             endTime:"",
+            visible: false,
         }
     }
     userId = JSON.parse(localStorage.getItem('userId'))['_id'];
@@ -71,7 +72,7 @@ class EventExam extends Component {
             }
         }
         );
-        const endTime = data.data[0].endTime;
+        const endTime = data?.data[0]?.endTime;
         if(data.data.length){
             this.setState({endTime: endTime});
             return endTime;
@@ -164,9 +165,11 @@ class EventExam extends Component {
              {this.state.event ?
                 <div className={styles.eventName}>
                     {this.state.event.name}
-                    {console.log(Date.now() + 10000-parseInt(this.state.endTime))}
-                    {/* <Countdown date={Date.now()+ 10000}/> */}
-                    {this.state.endTime && <Countdown date={parseInt(this.state.endTime)}/>}
+                    
+                   <div style={{position: 'absolute',fontFamily:"monospace", right:'2%', top:'0',fontSize:'30px'}}>
+                   {this.state.endTime && <Countdown date={parseInt(this.state.endTime)}/>}
+                    </div>
+                    
                     
                 </div> 
                 :<div>no event</div>}
@@ -179,16 +182,21 @@ class EventExam extends Component {
                 <div className={styles.currentQuestion}>
                 {this.state.question}
                 
-                <button className="btn btn-info" style={{width: "100%",}} onClick={this.onFinalSubmitHandler}>Final Submit</button>
+                <button className={"btn btn-info "+styles.btn} style={{width: "100%",}}
+                onClick={()=>this.setState({visible: true})}>Final Submit</button>
                 </div>
                
             </div>
             {/* ------------------MODAL------------ */}
-            <div className={styles.myModal + " myModal"}>
-                <p className="myModal">Are You Sure!</p>
-                <button className="btn btn-info" onClick={this.closeModal}>No</button>
-                <Link to="/events"><button className="btn btn-info">Yes</button></Link>
-            </div>
+            <Modal title={null} visible={this.state.visible}
+             onOk={()=>{this.setState({
+                 visible:false
+                });
+                this.onFinalSubmitHandler();
+            }} 
+             onCancel={()=>this.setState({visible:false})}>
+                <p>Are You Sure Your Response Will be submitted!</p>
+      </Modal>
             </>
             
 

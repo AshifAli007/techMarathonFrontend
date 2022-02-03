@@ -1,10 +1,23 @@
+@font-face {
+	font-family: 'frontman';
+	src: url('../../assets/fonts/frontman.ttf') format('truetype');
+  }
+  @font-face {
+	font-family: 'hollow';
+	src: url('../../assets/fonts/hollow.ttf') format('truetype');
+  }
+.btn{
+    font-family: hollow;
+    font-size: 20px;
+}
 .questionBox {
     display: flex;
+    font-family: hollow;
     justify-content: center;
     align-items:center;
     width: 80px;
     height: 80px;
-    background-color:grey;
+    background-color:#cacaca;
     margin: 5px;
     cursor: pointer;
     text-align: center;
@@ -51,10 +64,10 @@
 }
 .eventName{
     margin-top: 5%;
-    font-size: 52px;
+    font-size: 30px;
     position: relative;
     bottom:5%;
-    font-family: monospace;
+    font-family: frontman;
     text-align: center;
     position: relative;
     bottom: 50px;

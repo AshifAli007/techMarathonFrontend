@@ -45,7 +45,7 @@ class Question extends Component {
         
             
         <div className={styles.ques}>{this.props.details.text}</div>
-        
+        <div style={{position:'absolute', top: '1%', right:'4%', color:'white', fontSize:'18px'}}>{this.props.details.qid}</div>
         {this.props.details.code &&
                 <pre>
                 <div className={styles.ques}>{this.props.details.code}</div>

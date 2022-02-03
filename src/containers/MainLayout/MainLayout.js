@@ -21,7 +21,8 @@ class Main extends Component {
             <Switch>
                 <Route path="/events" exact component={Events}/>
                 <Route path="/authentication" component={Auth}/>
-                {/* <Redirect to="/events"/> */}
+                <Route path="/" exact component={Events}/>
+    
             </Switch>
         )
         if(this.props.isAuthenticated){
@@ -34,7 +35,8 @@ class Main extends Component {
                         <Route path="/eventExam/:id" component={EventExam}/>
                         <Route path="/logout" component={Logout}/>
                         <Route path="/bamboozled" component={Bamboozled}/>
-                        {/* <Redirect to="/events"/> */}
+                        <Route path="/" exact component={Events}/>
+                        
                     </Switch>
                 )
             }else if(privileges === 'admin'){
@@ -49,7 +51,7 @@ class Main extends Component {
                         <Route path="/requests" component={Requests}/>
                         <Route path="/results" component={Results}/>
                         <Route path="/bamboozled" component={Bamboozled}/>
-                        {/* <Redirect to="/events"/> */}
+                        <Route path="/" exact component={Events}/>
                     </Switch>
                 )
             }

@@ -5,7 +5,9 @@ import Loader from '../../components/Loader/Loader';
 import camelcase from 'camelcase';
 import { Select } from 'antd';
 import { Table, Switch, message } from 'antd';
+import './BamboozledAdmin.css';
 const { Option } = Select;
+
 
 class Responses extends React.Component {
     state ={
@@ -145,16 +147,10 @@ class Responses extends React.Component {
                 key: 'score',
               }
         ];
-        let options = null;
-        options = this.state.events.map(event=>{
-            return(
-                <Option value={event.name}>{event.name}</Option>
-            )
-        });
         return(
             this.state.loading ? <Loader/>:
-            <div>
-                <button onClick={this.refresh}>Refresh</button>
+            <div style={{position:'relative'}}>
+                <button className="refreshButton" onClick={this.refresh}>Refresh - {this.state.currentEventResponse.length}</button>
                 <Table 
                     columns={columns}
                     loading={this.state.loading}
